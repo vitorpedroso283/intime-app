@@ -1,61 +1,66 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📘 inTime - Teste Técnico (Ticto)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este repositório faz parte da entrega de um **teste técnico** para a empresa **Ticto**.
 
-## About Laravel
+## 🎯 Objetivo do Teste
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+A proposta consiste em desenvolver uma aplicação de controle de ponto, permitindo que:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* Funcionários possam bater ponto (clock-in);
+* Administradores possam gerenciar os funcionários e visualizar os registros de ponto;
+* A autenticação e autorização sejam feitas utilizando Laravel Sanctum, com controle baseado em "abilities".
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## ⚙️ Tecnologias e Ferramentas Utilizadas
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* **PHP 8.4**
+* **Laravel 12**
+* **Laravel Sanctum** para autenticação com tokens pessoais
+* **Enum** para centralização de permissões (abilities)
+* **Service Layer** para separar regras de negócio da camada de controle
+* **Eloquent ORM** para comunicação com o banco de dados
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🧱 Arquitetura do Projeto
 
-## Laravel Sponsors
+A arquitetura da aplicação é baseada no padrão **MVC com Service Layer**, contemplando os seguintes pontos:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+* **Controllers** focados em lidar com a entrada e resposta HTTP;
+* **Services** contendo a lógica de negócio de forma isolada e reutilizável;
+* **Enums** organizando as permissões disponíveis para os tokens Sanctum;
+* **Resources** usados para formatar as respostas de API (padrão JSON);
+* **Middlewares** configurados para validar permissões via abilities do Sanctum;
 
-### Premium Partners
+### Por que Service Layer?
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+A separação por serviços permite uma organização clara da lógica de negócio e torna o projeto mais testável e manutenível.
 
-## Contributing
+### Por que não usar DDD, Hexagonal, etc?
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Embora arquiteturas mais robustas como **DDD** ou **Arquitetura Hexagonal** sejam valiosas em projetos grandes e complexos, sua aplicação aqui resultaria em **over engineering** desnecessário. A escolha por uma abordagem mais simples atende completamente ao escopo e requisitos deste teste.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📌 Comentários no Código
 
-## Security Vulnerabilities
+A maioria dos comentários está em **português**, por dois motivos:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. O teste foi redigido integralmente em português;
+2. Comentários têm como objetivo facilitar a leitura dos avaliadores.
 
-## License
+Os commits, no entanto, seguem o padrão em **inglês**, alinhados com boas práticas de versionamento.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 📒 Sobre este README
+
+Este é um **README provisório** com anotações e insights sobre o desenvolvimento. Uma versão final mais objetiva e organizada será disponibilizada ao término da implementação, contendo:
+
+* Instruções de execução local;
+* Estrutura completa de endpoints;
+* Explicações de decisões técnicas;
+* Cobertura de testes (se aplicável).
+
+---
