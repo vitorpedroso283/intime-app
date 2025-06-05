@@ -30,11 +30,13 @@ it('deve retornar os dados do endereço ao consultar um CEP válido', function (
 
     $response->assertOk();
     $response->assertJson([
-        'cep' => '01001-000',
-        'street' => 'Praça da Sé',
-        'neighborhood' => 'Sé',
-        'city' => 'São Paulo',
-        'state' => 'SP',
+        'data' => [
+            'cep' => '01001-000',
+            'street' => 'Praça da Sé',
+            'neighborhood' => 'Sé',
+            'city' => 'São Paulo',
+            'state' => 'SP',
+        ]
     ]);
 });
 

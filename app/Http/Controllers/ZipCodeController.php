@@ -30,7 +30,7 @@ class ZipCodeController extends Controller
                 return response()->json(['message' => 'ZIP code not found.'], 404);
             }
 
-            return new ZipCodeResource($data);
+            return new ZipCodeResource($data)->response();
         });
     }
 }
