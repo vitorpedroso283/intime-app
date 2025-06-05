@@ -21,7 +21,7 @@ it('permite login com credenciais válidas', function () {
 
     $response->assertOk();
     $response->assertJsonStructure([
-        'access_token',
+        'data' => ['access_token'],
     ]);
 });
 

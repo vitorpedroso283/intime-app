@@ -79,5 +79,3 @@ Este é um **README provisório** com anotações e insights sobre o desenvolvim
 -   Cobertura de testes (se aplicável).
 
 ---
-
-Se desejar sugestões para próximos tópicos, me avise!
