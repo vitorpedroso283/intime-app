@@ -7,7 +7,7 @@ use App\Http\Resources\LoginResource;
 use App\Services\AuthService;
 use App\Traits\HandlesApiExceptions;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -24,6 +24,15 @@ class AuthController extends Controller
             );
 
             return (new LoginResource($data))->response();
+        });
+    }
+
+    public function logout(Request $request): JsonResponse
+    {
+        return $this->handleApi(function () use ($request) {
+            $this->authService->logout($request->user());
+
+            return response()->json(['message' => 'Logout successful.']);
         });
     }
 }

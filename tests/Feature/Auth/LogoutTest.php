@@ -8,18 +8,18 @@ uses(RefreshDatabase::class);
 
 it('permite logout e revoga o token atual', function () {
     $user = User::factory()->create();
+    $token = $user->createToken('test-token');
 
-    Sanctum::actingAs($user);
-
-    $response = $this->postJson('/api/logout');
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token->plainTextToken,
+    ])->postJson('/api/logout');
 
     $response->assertOk();
     $response->assertJson(['message' => 'Logout successful.']);
 
-    $responseAfter = $this->getJson('/api/user');
-
-    $responseAfter->assertUnauthorized();
-    $responseAfter->assertJson(['message' => 'Unauthenticated.']);
+    $this->assertDatabaseMissing('personal_access_tokens', [
+        'id' => $token->accessToken->id,
+    ]);
 });
 
 it('remove o token do banco ao fazer logout', function () {

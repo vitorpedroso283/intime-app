@@ -23,6 +23,11 @@ class AuthService
         ];
     }
 
+    public function logout(User $user): void
+    {
+        $user->currentAccessToken()?->delete();
+    }
+
     /**
      * Gera um token de acesso Sanctum com permissões (abilities) baseadas no papel do usuário.
      *
