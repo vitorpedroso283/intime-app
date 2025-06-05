@@ -44,6 +44,8 @@ class AuthService
                 TokenAbility::MANAGE_EMPLOYEES->value,
                 TokenAbility::VIEW_ALL_CLOCKS->value,
                 TokenAbility::FILTER_CLOCKS->value,
+                TokenAbility::CLOCK_IN->value,
+                TokenAbility::UPDATE_PASSWORD->value,
             ],
             'employee' => [
                 TokenAbility::CLOCK_IN->value,
