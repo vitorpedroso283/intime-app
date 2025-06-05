@@ -1,10 +1,16 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->viacepUrl = rtrim(Config::get('services.viacep.url'), '/');
+    $this->user = User::factory()->create();
+    $this->actingAs($this->user);
 });
 
 it('deve retornar os dados do endereço ao consultar um CEP válido', function () {
