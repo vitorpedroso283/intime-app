@@ -7,7 +7,7 @@ use Laravel\Sanctum\Sanctum;
 uses(RefreshDatabase::class);
 
 it('permite logout e revoga o token atual', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->employee()->create();
     $token = $user->createToken('test-token');
 
     $response = $this->withHeaders([
@@ -23,7 +23,7 @@ it('permite logout e revoga o token atual', function () {
 });
 
 it('remove o token do banco ao fazer logout', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->employee()->create();
 
     $token = $user->createToken('test-token');
 

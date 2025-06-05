@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    $this->user = User::factory()->create([
+    $this->user = User::factory()->admin()->create([
         'email' => 'usuario@teste.com',
         'password' => Hash::make('senhaSegura123'),
     ]);
@@ -75,7 +75,7 @@ it('bloqueia o login após muitas tentativas com falha', function () {
 });
 
 it('rejeita token expirado', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->employee()->create();
 
     // Cria token manualmente com expiration no passado
     $token = $user->createToken('test', ['*'], now()->subMinutes(5));

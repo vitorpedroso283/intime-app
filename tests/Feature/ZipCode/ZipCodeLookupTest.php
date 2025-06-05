@@ -9,7 +9,7 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->viacepUrl = rtrim(Config::get('services.viacep.url'), '/');
-    $this->user = User::factory()->create();
+    $this->user = User::factory()->employee()->create();
     $this->actingAs($this->user);
 });
 
