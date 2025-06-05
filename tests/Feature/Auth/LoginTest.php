@@ -73,3 +73,20 @@ it('bloqueia o login após muitas tentativas com falha', function () {
         'message' => 'Too Many Attempts.',
     ]);
 });
+
+it('rejeita token expirado', function () {
+    $user = User::factory()->create();
+
+    // Cria token manualmente com expiration no passado
+    $token = $user->createToken('test', ['*'], now()->subMinutes(5));
+
+    // Usa o token diretamente no header Authorization
+    $response = $this->withHeaders([
+        'Authorization' => 'Bearer ' . $token->plainTextToken,
+    ])->getJson('/api/user');
+
+    $response->assertStatus(401);
+    $response->assertJson([
+        'message' => 'Unauthenticated.',
+    ]);
+});
