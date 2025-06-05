@@ -1,5 +1,3 @@
----
-
 # 📘 inTime - Teste Técnico (Ticto)
 
 Este repositório faz parte da entrega de um **teste técnico** para a empresa **Ticto**.
@@ -66,6 +64,42 @@ Ao cadastrar um novo funcionário, o `FormRequest` verifica se o CEP informado �
 
 Para `updates`, a validação só será reexecutada caso o campo `cep` seja alterado. Isso evita falhas desnecessárias caso o CEP anterior tenha expirado no cache, mas ainda seja válido.
 
+🛡️ A implementação também contempla **fallback automático**: se o CEP não estiver em cache, a API externa é consultada e o resultado é salvo, garantindo consistência e performance.
+
+---
+
+## 🗃️ Estrutura do Banco de Dados
+
+O projeto possui duas tabelas principais:
+
+### 🧑‍💼 `users`
+
+Armazena tanto administradores quanto funcionários. Campos adicionais foram incluídos diretamente nessa tabela:
+
+- `cpf`, `role`, `position`, `birth_date`
+- Endereço completo (`zipcode`, `street`, `neighborhood`, `city`, `state`, `number`, `complement`)
+- `created_by` → indica quem cadastrou o usuário
+- `deleted_at` → permite soft delete com `SoftDeletes`
+
+🔄 A opção de manter os campos adicionais na tabela `users`, sem criar uma tabela `employees` separada, foi tomada para manter a estrutura simples, já que todo `user` é um funcionário (ou ao menos precisa bater ponto).
+
+### ⏱️ `punches`
+
+Registra os batimentos de ponto com os campos:
+
+- `user_id` → referência ao usuário
+- `type` (`in` ou `out`)
+- `punched_at` → momento real do batimento (pode ser diferente de `created_at`)
+- `created_by` → identifica se foi um lançamento manual por um admin
+
+📌 **Por que `punched_at` se já temos `created_at`?**
+
+Para registrar batimentos manuais corretamente. O `created_at` indica quando o registro foi inserido, enquanto `punched_at` indica o momento real da batida.
+
+📌 **Por que `created_by`?**
+
+Para diferenciar batidas feitas pelo próprio funcionário de registros manuais adicionados por um administrador.
+
 ---
 
 ## 📌 Comentários no Código
@@ -93,6 +127,20 @@ Essa abordagem garante maior confiança na evolução do sistema e ajuda a mante
 
 ---
 
+## 🧪 Commits e Versionamento
+
+* Os commits seguem convenções claras (`feat`, `test`, `fix`, `docs`, etc);
+* A frequência de entregas parciais está refletida nos commits pequenos e incrementais;
+* Apesar de não termos utilizado múltiplas **branches** neste projeto, essa foi uma decisão consciente para manter o fluxo simples. Caso necessário, adotaríamos convenções como:
+
+* feature/nome-da-feature
+* fix/ajuste-especifico
+* docs/atualiza-readme
+
+A ausência de branches não comprometeu a legibilidade nem o controle do histórico, que segue boas práticas de versionamento.
+
+---
+
 ## 📒 Sobre este README
 
 Este é um **README provisório** com anotações e insights sobre o desenvolvimento. Uma versão final mais objetiva e organizada será disponibilizada ao término da implementação, contendo:
@@ -103,4 +151,3 @@ Este é um **README provisório** com anotações e insights sobre o desenvolvim
 * Cobertura de testes (se aplicável).
 
 ---
-
