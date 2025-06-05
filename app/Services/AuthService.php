@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Enums\TokenAbility;
+use App\Enums\UserRole;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Support\Facades\RateLimiter;
@@ -39,22 +40,13 @@ class AuthService
      */
     public function generateTokenByRole(User $user): string
     {
-        $abilities = match ($user->role) {
-            'admin' => [
-                TokenAbility::MANAGE_EMPLOYEES->value,
-                TokenAbility::VIEW_ALL_CLOCKS->value,
-                TokenAbility::FILTER_CLOCKS->value,
-                TokenAbility::CLOCK_IN->value,
-                TokenAbility::UPDATE_PASSWORD->value,
-            ],
-            'employee' => [
-                TokenAbility::CLOCK_IN->value,
-                TokenAbility::UPDATE_PASSWORD->value,
-            ],
-            default => [],
-        };
-
-        return $user->createToken('access-token', $abilities)->plainTextToken;
+        try {
+            $role = UserRole::from($user->role);
+        } catch (\ValueError $e) {
+            throw new \InvalidArgumentException("Invalid role: {$user->role}");
+        }
+    
+        return $user->createToken('access-token', $role->abilities())->plainTextToken;
     }
 
     private function authenticateUser(array $credentials): User
