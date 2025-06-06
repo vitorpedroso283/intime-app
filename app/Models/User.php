@@ -59,4 +59,26 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Retorna o administrador (gestor) que criou este funcionário.
+     *
+     * Relacionamento belongsTo com a própria tabela de usuários, filtrando para apenas usuários com papel de 'admin'.
+     */
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'created_by')
+            ->where('role', 'admin');
+    }
+
+    /**
+     * Retorna os funcionários criados por este administrador.
+     *
+     * Relacionamento hasMany com a própria tabela de usuários, filtrando apenas os usuários com papel de 'employee'.
+     */
+    public function employees()
+    {
+        return $this->hasMany(User::class, 'created_by')
+            ->where('role', 'employee');
+    }
 }
