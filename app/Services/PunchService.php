@@ -22,4 +22,17 @@ class PunchService
             'created_by' => null, // funcionário bateu o próprio ponto
         ]);
     }
+
+    /**
+     * Registra um punch manual com os dados fornecidos.
+     *
+     * Espera um array validado contendo:
+     * - user_id: ID do funcionário
+     * - type: 'in' ou 'out'
+     * - punched_at: Data e hora do registro
+     * - created_by: ID do administrador que registrou
+     */ public function recordManual(array $data): Punch
+    {
+        return Punch::create($data);
+    }
 }

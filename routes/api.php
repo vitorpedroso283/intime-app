@@ -25,8 +25,16 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Grupo de rotas para registro de ponto (punches)
-    // Acesso restrito a usuários autenticados com permissão (ability) de bater ponto (CLOCK_IN)
-    Route::prefix('punches')->middleware('ability:' . TokenAbility::CLOCK_IN->value)->group(function () {
-        Route::post('/clock-in', [PunchController::class, 'store']);
+    // As rotas abaixo lidam com o registro de entrada e saída dos funcionários.
+    // Caso o funcionário esqueça de bater o ponto, um administrador pode registrar manualmente posteriormente.
+    // Cada rota exige a ability específica para garantir o controle de acesso adequado.
+    Route::prefix('punches')->group(function () {
+        // Registro manual de ponto - realizado por administradores com permissão para gerenciar funcionários
+        Route::post('/manual', [PunchController::class, 'manualStore'])
+            ->middleware('ability:' . TokenAbility::MANAGE_EMPLOYEES->value);
+
+        // Registro de ponto próprio (entrada/saída) - feito pelo próprio funcionário com a ability adequada
+        Route::post('/clock-in', [PunchController::class, 'store'])
+            ->middleware('ability:' . TokenAbility::CLOCK_IN->value);
     });
 });
