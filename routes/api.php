@@ -17,8 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/zipcode/{cep}', [ZipCodeController::class, 'lookup']);
 
     // Grupo de rotas administrativas para gerenciamento de usuários
-    Route::prefix('/admin/users')->group(function () {
-        Route::post('/', [EmployeeController::class, 'store'])
-            ->middleware('ability:manage-employees');
-    })->middleware('ability:' . TokenAbility::MANAGE_EMPLOYEES->value);;
+    Route::prefix('admin')->middleware('ability:' . TokenAbility::MANAGE_EMPLOYEES->value)->group(function () {
+        Route::post('/users', [EmployeeController::class, 'store']);
+    });
 });

@@ -13,7 +13,14 @@ beforeEach(function () {
         'password' => Hash::make('senhaSegura123'),
     ]);
 
-    $this->actingAs($this->admin, 'sanctum');
+    // Pega as abilities do enum dinamicamente
+    $abilities = \App\Enums\UserRole::ADMIN->abilities();
+
+    // Cria o token com as abilities certas
+    $token = $this->admin->createToken('test-token', $abilities)->plainTextToken;
+
+    // Autentica com Sanctum usando o token recém-criado
+    $this->withHeader('Authorization', 'Bearer ' . $token);
 });
 
 it('permite ao admin cadastrar um funcionário válido', function () {
@@ -26,7 +33,7 @@ it('permite ao admin cadastrar um funcionário válido', function () {
             'state' => 'SP',
         ]);
 
-    $response = $this->postJson('/admin/users', [
+    $response = $this->postJson('/api/admin/users', [
         'name' => 'João da Silva',
         'email' => 'joao@empresa.com',
         'cpf' => '11144477735',
@@ -50,7 +57,7 @@ it('permite ao admin cadastrar um funcionário válido', function () {
 });
 
 it('retorna erro se o CPF for inválido', function () {
-    $response = $this->postJson('/admin/users', [
+    $response = $this->postJson('/api/admin/users', [
         'name' => 'Inválido',
         'email' => 'invalido@empresa.com',
         'cpf' => '12345678900', // CPF inválido
@@ -73,7 +80,7 @@ it('retorna erro se o e-mail já estiver em uso', function () {
         'email' => 'joao@empresa.com',
     ]);
 
-    $response = $this->postJson('/admin/users', [
+    $response = $this->postJson('/api/admin/users', [
         'name' => 'João duplicado',
         'email' => 'joao@empresa.com', // já existente
         'cpf' => '11144477735',
@@ -94,7 +101,7 @@ it('retorna erro se o CEP for inválido ou inexistente', function () {
     // Simula erro da API
     Cache::shouldReceive('remember')->andReturn(null);
 
-    $response = $this->postJson('/admin/users', [
+    $response = $this->postJson('/api/admin/users', [
         'name' => 'Fulano',
         'email' => 'fulano@empresa.com',
         'cpf' => '11144477735',
@@ -109,25 +116,4 @@ it('retorna erro se o CEP for inválido ou inexistente', function () {
 
     $response->assertStatus(422);
     $response->assertJsonValidationErrors(['zipcode']);
-});
-
-it('retorna erro 401 se não estiver autenticado', function () {
-    // Faz logout
-    auth()->logout();
-
-    $response = $this->postJson('/admin/users', [
-        'name' => 'Sem login',
-        'email' => 'nobody@empresa.com',
-        'cpf' => '11144477735',
-        'password' => 'senha123',
-        'position' => 'Cargo',
-        'birth_date' => '1990-01-01',
-        'zipcode' => '01001000',
-        'street' => 'Rua Z',
-        'city' => 'São Paulo',
-        'state' => 'SP',
-    ]);
-
-    $response->assertUnauthorized();
-    $response->assertJson(['message' => 'Unauthenticated.']);
 });

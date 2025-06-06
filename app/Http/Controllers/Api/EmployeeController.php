@@ -3,10 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Resources\UserResource;
+use App\Services\EmployeeService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Traits\HandlesApiExceptions;
 
 class EmployeeController extends Controller
 {
+
+    use HandlesApiExceptions;
+
+    public function __construct(protected EmployeeService $employeeService) {}
     /**
      * Display a listing of the resource.
      */
@@ -16,11 +25,17 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cadastra um novo funcionário.
      */
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request): JsonResponse
     {
-        //
+        return $this->handleApi(function () use ($request) {
+            $employee = $this->employeeService->create($request->validated(), auth()->user());
+
+            return (new UserResource($employee))
+                ->response()
+                ->setStatusCode(201);
+        });
     }
 
     /**
