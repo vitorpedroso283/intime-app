@@ -81,4 +81,14 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'created_by')
             ->where('role', 'employee');
     }
+
+    /**
+     * Retorna os registros de ponto (punches) associados a este usuário.
+     *
+     * Relacionamento hasMany com a tabela de punches, representando os horários de entrada e saída do funcionário.
+     */
+    public function punches()
+    {
+        return $this->hasMany(Punch::class);
+    }
 }
