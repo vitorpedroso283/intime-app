@@ -47,6 +47,7 @@ it('permite ao admin cadastrar um funcionário válido', function () {
         'state' => 'SP',
         'number' => '100',
         'complement' => 'Bloco A',
+        'role' => 'employee',
     ]);
 
     $response->assertCreated();
@@ -68,6 +69,7 @@ it('retorna erro se o CPF for inválido', function () {
         'street' => 'Rua XPTO',
         'city' => 'São Paulo',
         'state' => 'SP',
+        'role' => 'employee',
     ]);
 
     $response->assertStatus(422);
@@ -91,6 +93,7 @@ it('retorna erro se o e-mail já estiver em uso', function () {
         'street' => 'Rua XPTO',
         'city' => 'São Paulo',
         'state' => 'SP',
+        'role' => 'employee',
     ]);
 
     $response->assertStatus(422);
@@ -112,8 +115,28 @@ it('retorna erro se o CEP for inválido ou inexistente', function () {
         'street' => 'Rua Y',
         'city' => 'SP',
         'state' => 'SP',
+        'role' => 'employee',
     ]);
 
     $response->assertStatus(422);
     $response->assertJsonValidationErrors(['zipcode']);
+});
+
+it('retorna erro se o papel (role) for inválido ou ausente', function () {
+    $response = $this->postJson('/api/admin/users', [
+        'name' => 'Sem Papel',
+        'email' => 'sem@empresa.com',
+        'cpf' => '11144477735',
+        'password' => 'senha123',
+        'position' => 'Cargo',
+        'birth_date' => '1992-03-15',
+        'zipcode' => '01001000',
+        'street' => 'Rua A',
+        'city' => 'São Paulo',
+        'state' => 'SP',
+        // 'role' => 'employee', // intencionalmente omitido
+    ]);
+
+    $response->assertStatus(422);
+    $response->assertJsonValidationErrors(['role']);
 });
