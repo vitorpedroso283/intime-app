@@ -52,4 +52,49 @@ class EmployeeService
     {
         $user->delete();
     }
+
+    /**
+     * Retorna a lista paginada de funcionários.
+     */
+    public function list(array $filters = [])
+    {
+        $query = User::with('manager')
+            ->where('role', 'employee');
+
+        if (!empty($filters['name'])) {
+            $query->where('name', 'like', '%' . $filters['name'] . '%');
+        }
+
+        if (!empty($filters['email'])) {
+            $query->where('email', 'like', '%' . $filters['email'] . '%');
+        }
+
+        if (!empty($filters['cpf'])) {
+            $query->where('cpf', 'like', '%' . $filters['cpf'] . '%');
+        }
+
+        if (!empty($filters['position'])) {
+            $query->where('position', 'like', '%' . $filters['position'] . '%');
+        }
+
+        if (!empty($filters['role'])) {
+            $query->where('role', $filters['role']);
+        }
+
+        if (!empty($filters['birth_date_from'])) {
+            $query->where('birth_date', '>=', $filters['birth_date_from']);
+        }
+
+        if (!empty($filters['birth_date_to'])) {
+            $query->where('birth_date', '<=', $filters['birth_date_to']);
+        }
+
+        if (!empty($filters['created_by'])) {
+            $query->where('created_by', $filters['created_by']);
+        }
+
+        $perPage = $filters['per_page'] ?? 10;
+
+        return $query->paginate($perPage);
+    }
 }

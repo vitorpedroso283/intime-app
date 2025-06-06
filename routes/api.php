@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Grupo de rotas administrativas para gerenciamento de usuários
     Route::prefix('admin')->middleware('ability:' . TokenAbility::MANAGE_EMPLOYEES->value)->group(function () {
         Route::post('/users', [EmployeeController::class, 'store']);
+        Route::get('/users', [EmployeeController::class, 'index']);
         Route::put('/users/{user}', [EmployeeController::class, 'update']);
         Route::get('/users/{user}', [EmployeeController::class, 'show']);
         Route::delete('/users/{user}', [EmployeeController::class, 'destroy']);

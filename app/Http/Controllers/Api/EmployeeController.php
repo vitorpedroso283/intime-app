@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListEmployeesRequest;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Resources\UserResource;
@@ -18,13 +19,17 @@ class EmployeeController extends Controller
     use HandlesApiExceptions;
 
     public function __construct(protected EmployeeService $employeeService) {}
+    
     /**
-     * Display a listing of the resource.
+     * Lista os funcionários cadastrados.
      */
-    public function index()
+    public function index(ListEmployeesRequest $request): JsonResponse
     {
-        //
-    }
+        return $this->handleApi(function () use ($request) {
+            $employees = $this->employeeService->list($request->validated());
+            return UserResource::collection($employees)->response();
+        });
+    }    
 
     /**
      * Cadastra um novo funcionário.
