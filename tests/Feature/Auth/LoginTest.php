@@ -83,7 +83,7 @@ it('rejeita token expirado', function () {
     // Usa o token diretamente no header Authorization
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token->plainTextToken,
-    ])->getJson('/api/user');
+    ])->postJson('/api/logout');
 
     $response->assertStatus(401);
     $response->assertJson([
