@@ -24,7 +24,7 @@ it('permite ao admin remover um funcionário', function () {
 
     $response->assertOk();
     $response->assertJson([
-        'message' => 'Funcionário removido com sucesso.',
+        'message' => 'Employee deleted successfully.',
     ]);
 
     expect(User::find($employee->id))->toBeNull();
@@ -50,7 +50,7 @@ it('marca o funcionário como removido (soft delete)', function () {
 
     $response->assertOk();
     $response->assertJson([
-        'message' => 'Funcionário removido com sucesso.',
+        'message' => 'Employee deleted successfully.',
     ]);
 
     // Deve retornar null com o método normal...
