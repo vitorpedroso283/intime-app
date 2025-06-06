@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRole;
 use App\Rules\Cpf;
 use App\Rules\ValidZipCode;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreEmployeeRequest extends FormRequest
 {
@@ -33,6 +35,7 @@ class StoreEmployeeRequest extends FormRequest
             'zipcode' => ['required', new ValidZipCode()],
             'street' => 'required|string',
             'neighborhood' => 'nullable|string',
+            'role' => ['required', 'string', Rule::in(UserRole::values())],
             'city' => 'required|string',
             'state' => 'required|string|size:2',
             'number' => 'nullable|string',
@@ -64,6 +67,9 @@ class StoreEmployeeRequest extends FormRequest
             'city.required' => 'A cidade é obrigatória.',
             'state.required' => 'O estado é obrigatório.',
             'state.size' => 'O estado deve conter exatamente 2 caracteres.',
+            'role.required' => 'O campo de papel (role) é obrigatório.',
+            'role.in' => 'O papel informado é inválido. Os valores permitidos são: ' .
+                implode(', ', array_map(fn($role) => $role->label(), UserRole::cases())) . '.',
         ];
     }
 
@@ -86,6 +92,7 @@ class StoreEmployeeRequest extends FormRequest
             'state' => 'estado',
             'number' => 'número',
             'complement' => 'complemento',
+            'role' => 'papel',
         ];
     }
 }

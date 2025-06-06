@@ -33,4 +33,20 @@ enum UserRole: string
             ],
         };
     }
+
+    public static function labels(): array
+    {
+        return [
+            self::ADMIN->value => self::ADMIN->label(),
+            self::EMPLOYEE->value => self::EMPLOYEE->label(),
+        ];
+    }
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::ADMIN => 'Administrador',
+            self::EMPLOYEE => 'Funcionário',
+        };
+    }
 }
