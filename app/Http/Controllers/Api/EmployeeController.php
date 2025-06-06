@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Services\EmployeeService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -47,11 +49,15 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Edita um funcionário.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateEmployeeRequest $request, User $user): JsonResponse
     {
-        //
+        return $this->handleApi(function () use ($request, $user) {
+            $updated = $this->employeeService->update($user, $request->validated());
+
+            return (new UserResource($updated))->response();
+        });
     }
 
     /**

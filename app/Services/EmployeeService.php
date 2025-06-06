@@ -19,4 +19,18 @@ class EmployeeService
 
         return User::create($data);
     }
+
+    /**
+     * Atualiza um funcionário já existente com os dados validados e o admin autenticado.
+     */
+    public function update(User $user, array $data): User
+    {
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
+        $user->update($data);
+
+        return $user;
+    }
 }
