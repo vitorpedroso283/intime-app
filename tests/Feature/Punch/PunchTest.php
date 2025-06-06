@@ -58,6 +58,8 @@ it('impede registro de punch sem ability adequada', function () {
 });
 
 it('retorna 401 se não estiver autenticado', function () {
+    $this->flushHeaders(); // remove o token autenticado definido no beforeEach
+
     $response = $this->postJson('/api/punches/clock-in');
 
     $response->assertUnauthorized();
