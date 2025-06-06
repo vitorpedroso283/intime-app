@@ -52,8 +52,9 @@ it('permite ao admin cadastrar um funcionário válido', function () {
 
     $response->assertCreated();
     $response->assertJsonPath('data.email', 'joao@empresa.com');
-    $response->assertJsonPath('data.role', 'employee');
-
+    $response->assertJsonPath('data.role.value', 'employee');
+    $response->assertJsonPath('data.role.label', 'Funcionário');
+        
     expect(\App\Models\User::where('email', 'joao@empresa.com')->exists())->toBeTrue();
 });
 

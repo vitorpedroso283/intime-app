@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -28,8 +29,11 @@ class UserResource extends JsonResource
             'state' => $this->state,
             'number' => $this->number,
             'complement' => $this->complement,
-            'role' => $this->role,
-            'created_by' => $this->created_by,
+            'role' => [
+                'value' => $this->role,
+                'label' => UserRole::from($this->role)->label(),
+            ],            'created_by' => $this->created_by,
+            'manager_name' => $this->whenLoaded('manager', fn () => optional($this->manager)->name),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

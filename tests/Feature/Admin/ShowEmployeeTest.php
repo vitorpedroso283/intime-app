@@ -35,7 +35,8 @@ it('permite ao admin visualizar os dados de um funcionário', function () {
 
     $response->assertOk();
     $response->assertJsonPath('data.email', 'maria@empresa.com');
-    $response->assertJsonPath('data.role', 'employee');
+    $response->assertJsonPath('data.role.value', 'employee');
+    $response->assertJsonPath('data.role.label', 'Funcionário');
     $response->assertJsonPath('data.name', 'Maria dos Testes');
 });
 
@@ -49,7 +50,7 @@ it('impede que funcionário acesse a rota de visualização de usuário', functi
 
     $response = $this->getJson("/api/admin/users/{$target->id}");
 
-    $response->assertStatus(403); 
+    $response->assertStatus(403);
 });
 
 it('retorna 404 se o funcionário não existir', function () {
