@@ -63,10 +63,16 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove um funcionário (soft delete).
      */
-    public function destroy(string $id)
+    public function destroy(User $user): JsonResponse
     {
-        //
+        return $this->handleApi(function () use ($user) {
+            $this->employeeService->delete($user);
+
+            return response()->json([
+                'message' => 'Employee deleted successfully.',
+            ]);
+        });
     }
 }

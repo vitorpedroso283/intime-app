@@ -34,8 +34,22 @@ class EmployeeService
         return $user;
     }
 
+    /**
+     * Ver dados de um funcionário
+     */
     public function show(User $user): User
     {
         return $user;
+    }
+
+    /**
+     * Realiza o soft delete de um funcionário.
+     *
+     * O registro não é removido do banco de dados,
+     * apenas marcado como deletado via deleted_at.
+     */
+    public function delete(User $user): void
+    {
+        $user->delete();
     }
 }
