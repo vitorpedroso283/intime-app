@@ -3,6 +3,7 @@
 use App\Enums\TokenAbility;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PunchController;
 use App\Http\Controllers\Api\ZipCodeController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +22,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/users/{user}', [EmployeeController::class, 'update']);
         Route::get('/users/{user}', [EmployeeController::class, 'show']);
         Route::delete('/users/{user}', [EmployeeController::class, 'destroy']);
+    });
+
+    // Grupo de rotas para registro de ponto (punches)
+    // Acesso restrito a usuários autenticados com permissão (ability) de bater ponto (CLOCK_IN)
+    Route::prefix('punches')->middleware('ability:' . TokenAbility::CLOCK_IN->value)->group(function () {
+        Route::post('/clock-in', [PunchController::class, 'store']);
     });
 });
