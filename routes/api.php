@@ -12,8 +12,6 @@ Route::post('/login', [AuthController::class, 'login']);
 // Rotas autenticadas com Sanctum
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', fn() => request()->user());
-
     Route::get('/zipcode/{cep}', [ZipCodeController::class, 'lookup']);
 
     // Grupo de rotas administrativas para gerenciamento de usuários
