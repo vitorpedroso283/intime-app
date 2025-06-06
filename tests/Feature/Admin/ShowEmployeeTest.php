@@ -49,7 +49,7 @@ it('impede que funcionário acesse a rota de visualização de usuário', functi
 
     $response = $this->getJson("/api/admin/users/{$target->id}");
 
-    $response->assertStatus(401); 
+    $response->assertStatus(403); 
 });
 
 it('retorna 404 se o funcionário não existir', function () {

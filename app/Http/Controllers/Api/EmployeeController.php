@@ -41,11 +41,13 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Exibe os dados de um funcionário.
      */
-    public function show(string $id)
+    public function show(User $user): JsonResponse
     {
-        //
+        return $this->handleApi(function () use ($user) {
+            return (new UserResource($this->employeeService->show($user)))->response();
+        });
     }
 
     /**

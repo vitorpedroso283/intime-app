@@ -33,4 +33,9 @@ class EmployeeService
 
         return $user;
     }
+
+    public function show(User $user): User
+    {
+        return $user;
+    }
 }
