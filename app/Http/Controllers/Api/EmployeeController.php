@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ListEmployeesRequest;
+use App\Http\Requests\ResetUserPasswordRequest;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Requests\UpdateOwnPasswordRequest;
@@ -92,6 +93,20 @@ class EmployeeController extends Controller
 
             return response()->json([
                 'message' => 'Password updated successfully.',
+            ]);
+        });
+    }
+
+    /**
+     * Redefine a senha de um funcionário (feito pelo administrador).
+     */
+    public function resetPassword(ResetUserPasswordRequest $request, User $user): JsonResponse
+    {
+        return $this->handleApi(function () use ($request, $user) {
+            $this->employeeService->resetPassword($user, $request->validated());
+
+            return response()->json([
+                'message' => 'Password reset successfully.',
             ]);
         });
     }

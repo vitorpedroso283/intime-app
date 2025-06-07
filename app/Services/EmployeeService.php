@@ -113,4 +113,14 @@ class EmployeeService
             'password' => Hash::make($data['new_password']),
         ]);
     }
+
+    /**
+     * Redefine a senha de um usuário (feito pelo admin).
+     */
+    public function resetPassword(User $user, array $data): void
+    {
+        $user->update([
+            'password' => Hash::make($data['new_password']),
+        ]);
+    }
 }

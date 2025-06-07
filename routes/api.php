@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/users/{user}', [EmployeeController::class, 'update']);
         Route::get('/users/{user}', [EmployeeController::class, 'show']);
         Route::delete('/users/{user}', [EmployeeController::class, 'destroy']);
+        Route::patch('/users/{user}/password', [EmployeeController::class, 'resetPassword']);
     });
 
     // Grupo de rotas para registro de ponto (punches)

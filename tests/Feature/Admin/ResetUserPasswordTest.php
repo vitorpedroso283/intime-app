@@ -19,7 +19,7 @@ it('permite que um administrador redefina a senha de um usuário', function () {
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->putJson("/api/admin/users/{$this->employee->id}/password", [
+    ])->patchJson("/api/admin/users/{$this->employee->id}/password", [
         'new_password' => 'novaSenha123',
         'new_password_confirmation' => 'novaSenha123',
     ]);
@@ -38,7 +38,7 @@ it('retorna erro se a confirmação da nova senha estiver incorreta', function (
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->putJson("/api/admin/users/{$this->employee->id}/password", [
+    ])->patchJson("/api/admin/users/{$this->employee->id}/password", [
         'new_password' => 'novaSenha123',
         'new_password_confirmation' => 'naoConfere123',
     ]);
@@ -52,7 +52,7 @@ it('retorna erro se a nova senha não atingir o mínimo de caracteres', function
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->putJson("/api/admin/users/{$this->employee->id}/password", [
+    ])->patchJson("/api/admin/users/{$this->employee->id}/password", [
         'new_password' => '123',
         'new_password_confirmation' => '123',
     ]);
@@ -66,7 +66,7 @@ it('impede que um funcionário comum acesse a rota de reset de senha', function 
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $employeeToken,
-    ])->putJson("/api/admin/users/{$this->admin->id}/password", [
+    ])->patchJson("/api/admin/users/{$this->admin->id}/password", [
         'new_password' => 'naoImporta123',
         'new_password_confirmation' => 'naoImporta123',
     ]);
