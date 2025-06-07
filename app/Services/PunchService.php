@@ -35,4 +35,13 @@ class PunchService
     {
         return Punch::create($data);
     }
+
+    /**
+     * Atualiza os dados de um punch.
+     */
+    public function update(Punch $punch, array $data): Punch
+    {
+        $punch->update($data);
+        return $punch;
+    }
 }

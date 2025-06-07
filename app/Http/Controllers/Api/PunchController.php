@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ManualPunchRequest;
+use App\Http\Requests\UpdatePunchRequest;
 use App\Http\Resources\PunchResource;
+use App\Models\Punch;
 use App\Services\PunchService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\HandlesApiExceptions;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class PunchController extends Controller
 {
@@ -73,18 +76,29 @@ class PunchController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza um registro de punch manualmente.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePunchRequest $request, Punch $punch): JsonResponse
     {
-        //
+        return $this->handleApi(function () use ($request, $punch) {
+            $updated = $this->punchService->update($punch, $request->validated());
+
+            return response()->json([
+                'message' => 'Punch successfully updated.',
+                'clock' => new PunchResource($updated),
+            ]);
+        });
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove um registro de punch.
      */
-    public function destroy(string $id)
+    public function destroy(Punch $punch): JsonResponse|Response
     {
-        //
+        return $this->handleApi(function () use ($punch) {
+            $punch->delete();
+
+            return response()->noContent(); 
+        });
     }
 }

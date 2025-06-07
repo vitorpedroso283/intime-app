@@ -30,8 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Cada rota exige a ability específica para garantir o controle de acesso adequado.
     Route::prefix('punches')->group(function () {
         // Registro manual de ponto - realizado por administradores com permissão para gerenciar funcionários
-        Route::post('/manual', [PunchController::class, 'manualStore'])
-            ->middleware('ability:' . TokenAbility::MANAGE_EMPLOYEES->value);
+        Route::middleware('ability:' . TokenAbility::MANAGE_EMPLOYEES->value)->group(function () {
+            Route::post('/manual', [PunchController::class, 'manualStore']);
+            Route::put('/{punch}', [PunchController::class, 'update']);
+            Route::delete('/{punch}', [PunchController::class, 'destroy']);
+        });
 
         // Registro de ponto próprio (entrada/saída) - feito pelo próprio funcionário com a ability adequada
         Route::post('/clock-in', [PunchController::class, 'store'])
