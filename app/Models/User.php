@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -58,6 +60,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Calcula e retorna a idade do usuário com base na data de nascimento (`birth_date`).
+     *
+     * A idade é calculada levando em consideração o ano, mês e dia atuais.
+     *
+     * @return int|null A idade atual do usuário ou null caso a data de nascimento não esteja definida.
+     */
+    public function getAgeAttribute(): ?int
+    {
+        if (!$this->birth_date) {
+            return null;
+        }
+
+        return \Carbon\Carbon::parse($this->birth_date)->age;
     }
 
     /**
