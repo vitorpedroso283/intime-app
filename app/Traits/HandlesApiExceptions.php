@@ -15,14 +15,22 @@ trait HandlesApiExceptions
             $response = $callback();
 
             return $response instanceof \Symfony\Component\HttpFoundation\Response
-            ? $response
-            : response()->json($response, 200);
-        
+                ? $response
+                : response()->json($response, 200);
         } catch (HttpExceptionInterface $e) {
             return response()->json([
                 'message' => $e->getMessage(),
             ], $e->getStatusCode());
         } catch (Throwable $e) {
+            if (app()->environment('local')) {
+                return response()->json([
+                    'message' => 'Internal Server Error',
+                    'error'   => $e->getMessage(),
+                    'file'    => $e->getFile(),
+                    'line'    => $e->getLine(),
+                ], 500);
+            }
+
             return response()->json([
                 'message' => 'Internal Server Error',
             ], 500);
