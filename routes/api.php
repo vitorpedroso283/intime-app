@@ -16,7 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/zipcode/{cep}', [ZipCodeController::class, 'lookup']);
 
     // Atualização de senha pelo próprio usuário
-    Route::put('/me/password', [EmployeeController::class, 'updateOwnPassword'])
+    Route::patch('/me/password', [EmployeeController::class, 'updateOwnPassword'])
         ->middleware('ability:' . TokenAbility::UPDATE_PASSWORD->value);
 
     // Grupo de rotas administrativas para gerenciamento de usuários

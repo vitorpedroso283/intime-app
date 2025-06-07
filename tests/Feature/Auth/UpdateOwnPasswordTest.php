@@ -19,7 +19,7 @@ it('atualiza a senha corretamente quando senha atual e confirmação são válid
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->putJson('/api/me/password', [
+    ])->patchJson('/api/me/password', [
         'current_password' => 'senhaAntiga123',
         'new_password' => 'novaSenha123',
         'new_password_confirmation' => 'novaSenha123',
@@ -39,7 +39,7 @@ it('retorna erro se a senha atual estiver incorreta', function () {
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->putJson('/api/me/password', [
+    ])->patchJson('/api/me/password', [
         'current_password' => 'senhaErrada',
         'new_password' => 'novaSenha123',
         'new_password_confirmation' => 'novaSenha123',
@@ -56,7 +56,7 @@ it('retorna erro se a nova senha e confirmação forem diferentes', function () 
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->putJson('/api/me/password', [
+    ])->patchJson('/api/me/password', [
         'current_password' => 'senhaAntiga123',
         'new_password' => 'novaSenha123',
         'new_password_confirmation' => 'diferente123',
@@ -71,7 +71,7 @@ it('retorna erro se o token não tiver a ability necessária', function () {
 
     $response = $this->withHeaders([
         'Authorization' => 'Bearer ' . $token,
-    ])->putJson('/api/me/password', [
+    ])->patchJson('/api/me/password', [
         'current_password' => 'senhaAntiga123',
         'new_password' => 'novaSenha123',
         'new_password_confirmation' => 'novaSenha123',
