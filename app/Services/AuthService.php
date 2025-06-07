@@ -8,6 +8,7 @@ use App\Enums\UserRole;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Log;
 
 class AuthService
 {
@@ -15,7 +16,22 @@ class AuthService
     {
         $this->checkRateLimit($ip);
 
-        $user = $this->authenticateUser($credentials);
+        try {
+            $user = $this->authenticateUser($credentials);
+
+            Log::info('Login realizado com sucesso.', [
+                'user_id' => $user->id,
+                'email'   => $user->email,
+                'ip'      => $ip,
+            ]);
+        } catch (HttpException $e) {
+            Log::warning('Tentativa de login falhou.', [
+                'email' => $credentials['email'] ?? null,
+                'ip'    => $ip,
+                'error' => $e->getMessage(),
+            ]);
+            throw $e;
+        }
 
         RateLimiter::clear('login:' . $ip);
 
@@ -27,6 +43,11 @@ class AuthService
     public function logout(User $user): void
     {
         $user->currentAccessToken()?->delete();
+
+        Log::info('Logout realizado com sucesso.', [
+            'user_id' => $user->id,
+            'email'   => $user->email,
+        ]);
     }
 
     /**
@@ -45,7 +66,7 @@ class AuthService
         } catch (\ValueError $e) {
             throw new \InvalidArgumentException("Invalid role: {$user->role}");
         }
-    
+
         return $user->createToken('access-token', $role->abilities())->plainTextToken;
     }
 
@@ -65,6 +86,7 @@ class AuthService
         $key = 'login:' . $ip;
 
         if (RateLimiter::tooManyAttempts($key, 5)) {
+            Log::warning('Rate limit excedido para login.', ['ip' => $ip]);
             throw new HttpException(429, 'Too Many Attempts.');
         }
 

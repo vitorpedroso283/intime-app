@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PunchService
 {
@@ -37,7 +38,16 @@ class PunchService
      * - created_by: ID do administrador que registrou
      */ public function recordManual(array $data): Punch
     {
-        return Punch::create($data);
+        $punch = Punch::create($data);
+
+        Log::info('Punch registrado manualmente.', [
+            'user_id' => $data['user_id'],
+            'type' => $data['type'],
+            'punched_at' => $data['punched_at'],
+            'created_by' => $data['created_by'] ?? null,
+        ]);
+
+        return $punch;
     }
 
     /**
@@ -45,7 +55,15 @@ class PunchService
      */
     public function update(Punch $punch, array $data): Punch
     {
+        $original = $punch->getOriginal();
         $punch->update($data);
+
+        Log::info('Punch atualizado.', [
+            'punch_id' => $punch->id,
+            'before' => $original,
+            'after' => $punch->getAttributes(),
+        ]);
+
         return $punch;
     }
 

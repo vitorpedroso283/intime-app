@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeService
 {
@@ -17,7 +18,15 @@ class EmployeeService
         $data['role'] = UserRole::EMPLOYEE->value;
         $data['created_by'] = $admin->id;
 
-        return User::create($data);
+        $user = User::create($data);
+
+        Log::info('Funcionário criado.', [
+            'admin_id' => $admin->id,
+            'employee_id' => $user->id,
+            'created_by' => $admin->id,
+        ]);
+
+        return $user;
     }
 
     /**
@@ -25,11 +34,19 @@ class EmployeeService
      */
     public function update(User $user, array $data): User
     {
+        $originalData = $user->getOriginal();
+
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
 
         $user->update($data);
+
+        Log::info('Funcionário atualizado.', [
+            'employee_id' => $user->id,
+            'before' => $originalData,
+            'after' => $user->getAttributes(),
+        ]);
 
         return $user;
     }
@@ -51,6 +68,9 @@ class EmployeeService
     public function delete(User $user): void
     {
         $user->delete();
+        Log::info('Funcionário deletado (soft delete).', [
+            'employee_id' => $user->id,
+        ]);
     }
 
     /**
@@ -106,11 +126,20 @@ class EmployeeService
     public function updateOwnPassword(User $user, array $data): void
     {
         if (!Hash::check($data['current_password'], $user->password)) {
+
+            Log::warning('Tentativa de troca de senha com senha atual incorreta.', [
+                'user_id' => $user->id,
+            ]);
+
             throw new \Symfony\Component\HttpKernel\Exception\HttpException(401, 'Current password is incorrect.');
         }
 
         $user->update([
             'password' => Hash::make($data['new_password']),
+        ]);
+
+        Log::info('Senha atualizada pelo próprio usuário.', [
+            'user_id' => $user->id,
         ]);
     }
 
@@ -121,6 +150,10 @@ class EmployeeService
     {
         $user->update([
             'password' => Hash::make($data['new_password']),
+        ]);
+
+        Log::info('Senha redefinida por admin.', [
+            'user_id' => $user->id,
         ]);
     }
 }
