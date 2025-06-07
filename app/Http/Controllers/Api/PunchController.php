@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ManualPunchRequest;
-use App\Http\Requests\UpdatePunchRequest;
+use App\Http\Requests\Punch\ManualPunchRequest;
+use App\Http\Requests\Punch\UpdatePunchRequest;
 use App\Http\Resources\PunchResource;
 use App\Models\Punch;
 use App\Services\PunchService;

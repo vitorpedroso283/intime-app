@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Punch;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdatePunchRequest extends FormRequest
+class ManualPunchRequest extends FormRequest
 {
     /**
      * Autoriza todos os usuários a fazerem esta requisição.
-     * A permissão será verificada via middleware ou policy.
+     * A validação de permissão será tratada via middleware ou policy.
      */
     public function authorize(): bool
     {
@@ -17,11 +17,13 @@ class UpdatePunchRequest extends FormRequest
     }
 
     /**
-     * Regras de validação para atualização de um punch.
+     * Regras de validação para registro manual de punch.
+     * Garante os dados corretos do funcionário e do ponto.
      */
     public function rules(): array
     {
         return [
+            'user_id' => 'required|exists:users,id',
             'type' => ['required', 'string', Rule::in(['in', 'out'])],
             'punched_at' => 'required|date',
         ];
@@ -33,6 +35,8 @@ class UpdatePunchRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'user_id.required' => 'O ID do usuário é obrigatório.',
+            'user_id.exists' => 'O usuário informado não foi encontrado.',
             'type.required' => 'O tipo de punch é obrigatório.',
             'type.in' => 'O tipo deve ser "in" ou "out".',
             'punched_at.required' => 'A data/hora do punch é obrigatória.',
@@ -46,8 +50,9 @@ class UpdatePunchRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'type' => 'tipo de ponto',
-            'punched_at' => 'data/hora do ponto',
+            'user_id' => 'usuário',
+            'type' => 'tipo de punch',
+            'punched_at' => 'data/hora do punch',
         ];
     }
 }

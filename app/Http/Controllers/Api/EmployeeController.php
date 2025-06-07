@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ListEmployeesRequest;
-use App\Http\Requests\ResetUserPasswordRequest;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
-use App\Http\Requests\UpdateOwnPasswordRequest;
+use App\Http\Requests\Employee\ListEmployeesRequest;
+use App\Http\Requests\Employee\ResetUserPasswordRequest;
+use App\Http\Requests\Employee\StoreEmployeeRequest;
+use App\Http\Requests\Employee\UpdateEmployeeRequest;
+use App\Http\Requests\Employee\UpdateOwnPasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\EmployeeService;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Traits\HandlesApiExceptions;
 

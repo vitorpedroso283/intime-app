@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ZipCodeLookupRequest;
+use App\Http\Requests\ZipCode\ZipCodeLookupRequest;
 use App\Http\Resources\ZipCodeResource;
 use App\Services\ZipCodeService;
 use App\Traits\HandlesApiExceptions;
