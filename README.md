@@ -189,6 +189,29 @@ Essa abordagem garante maior confiança na evolução do sistema e ajuda a mante
 
 A ausência de branches não comprometeu a legibilidade nem o controle do histórico, que segue boas práticas de versionamento.
 
+## \🔄 Considerações Técnicas Adicionais
+Durante a implementação deste teste, optei por não utilizar Jobs, Events, Listeners ou comandos Artisan customizados, e listo abaixo os motivos:
+
+O escopo do desafio foi bem definido e direto, com foco em controle de ponto e gestão de usuários;
+
+A criação de jobs para processos como envio de e-mail de boas-vindas, embora possível, não se justificava, já que o Laravel provê isso de forma trivial com notificações ou Mail::to()->send() inline;
+
+O uso de events e listeners, bem como comandos Artisan customizados, foi evitado por não haver fluxo reativo, tarefas agendadas ou rotinas de longa duração que demandassem esse tipo de arquitetura.
+
+## 💡 Experiência com Jobs e Assincronismo
+Apesar de não aplicados neste projeto, tenho amplo domínio na criação e orquestração de jobs no Laravel, utilizando recursos como:
+
+dispatch() para execução assíncrona simples;
+
+Bus::batch([...]) para processamento em lote com controle de progresso e falhas;
+
+Bus::chain([...]) para execução sequencial de tarefas interdependentes;
+
+Uso de filas com drivers como Redis e integração com Laravel Horizon para monitoramento em tempo real;
+
+Manipulação de filas com prioridade, timeouts e backoff customizado;
+
+Essas abordagens me permitem construir fluxos assíncronos altamente escaláveis e eficientes, especialmente úteis em contextos de integrações com APIs, processamento de relatórios, importações em massa, notificações e rotinas recorrentes.
 ---
 
 ## ❓Dúvidas de Interpretação
