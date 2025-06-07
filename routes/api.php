@@ -41,6 +41,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/{punch}', [PunchController::class, 'destroy']);
         });
 
+        // Relatório de registros de ponto - apenas visualização
+        Route::get('/report', [PunchController::class, 'report'])
+            ->middleware('ability:' . TokenAbility::VIEW_ALL_CLOCKS->value);
+
         // Registro de ponto próprio (entrada/saída) - feito pelo próprio funcionário com a ability adequada
         Route::post('/clock-in', [PunchController::class, 'store'])
             ->middleware('ability:' . TokenAbility::CLOCK_IN->value);

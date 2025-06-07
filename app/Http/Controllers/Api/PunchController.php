@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Punch\ManualPunchRequest;
+use App\Http\Requests\Punch\PunchReportRequest;
 use App\Http\Requests\Punch\UpdatePunchRequest;
+use App\Http\Resources\PunchReportResource;
 use App\Http\Resources\PunchResource;
 use App\Models\Punch;
 use App\Services\PunchService;
@@ -98,7 +100,33 @@ class PunchController extends Controller
         return $this->handleApi(function () use ($punch) {
             $punch->delete();
 
-            return response()->noContent(); 
+            return response()->noContent();
+        });
+    }
+
+    /**
+     * Gera um relatório de registros de ponto (punches) com filtros opcionais.
+     *
+     * Requer o ability VIEW_ALL_CLOCKS para acesso autorizado.
+     *
+     * Filtros disponíveis via query string:
+     * - from (date): filtra registros a partir desta data
+     * - to (date): filtra registros até esta data
+     * - user_id (int): ID do funcionário
+     * - created_by (int): ID do gestor do funcionário
+     * - position (string): cargo do funcionário (busca parcial)
+     *
+     * @param PunchReportRequest $request
+     * @return JsonResponse
+     */
+    public function report(PunchReportRequest $request): JsonResponse
+    {
+        return $this->handleApi(function () use ($request) {
+            $filters = $request->validated();
+
+            $result = $this->punchService->generateReport($filters);
+
+            return PunchReportResource::collection($result)->response();
         });
     }
 }

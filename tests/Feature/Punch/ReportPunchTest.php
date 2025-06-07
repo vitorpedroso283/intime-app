@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\TokenAbility;
+use App\Enums\UserRole;
 use App\Models\Punch;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,8 +10,11 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->manager = User::factory()->admin()->create();
-    $this->employee = User::factory()->employee(['manager_id' => $this->manager->id])->create();
-
+    $this->employee = User::factory()->create([
+        'role' => UserRole::EMPLOYEE->value,
+        'position' => UserRole::EMPLOYEE->value,
+        'created_by' => $this->manager->id,
+    ]);
     $token = $this->manager->createToken('admin-token', [
         TokenAbility::VIEW_ALL_CLOCKS->value,
         TokenAbility::FILTER_CLOCKS->value,
@@ -34,7 +38,7 @@ it('retorna relatório com registros de punch', function () {
             '*' => [
                 'id',
                 'employee_name',
-                'employee_role',
+                'employee_position',
                 'employee_age',
                 'manager_name',
                 'punched_at',
@@ -69,21 +73,21 @@ it('filtra registros por user_id com ability correta', function () {
     $response->assertJsonCount(1, 'data');
 });
 
-it('filtra registros por manager_id com ability correta', function () {
+it('filtra registros por created_by com ability correta', function () {
     Punch::factory()->create([
         'user_id' => $this->employee->id,
         'type' => 'in',
         'punched_at' => now(),
     ]);
 
-    $response = $this->getJson('/api/punches/report?manager_id=' . $this->manager->id);
+    $response = $this->getJson('/api/punches/report?created_by=' . $this->manager->id);
 
     $response->assertOk();
     $response->assertJsonCount(1, 'data');
 });
 
-it('filtra registros por role com ability correta', function () {
-    $this->employee->update(['role' => 'Atendente de Suporte']);
+it('filtra registros por position com ability correta', function () {
+    $this->employee->update(['position' => 'Atendente de Suporte']);
 
     Punch::factory()->create([
         'user_id' => $this->employee->id,
@@ -91,7 +95,7 @@ it('filtra registros por role com ability correta', function () {
         'punched_at' => now(),
     ]);
 
-    $response = $this->getJson('/api/punches/report?role=suporte');
+    $response = $this->getJson('/api/punches/report?position=suporte');
 
     $response->assertOk();
     $response->assertJsonCount(1, 'data');
@@ -105,7 +109,7 @@ it('impede qualquer filtro sem ability FILTER_CLOCKS', function () {
     $response = $this->getJson('/api/punches/report?user_id=' . $this->employee->id);
 
     $response->assertForbidden();
-    $response->assertJson(['message' => 'Invalid ability.']);
+    $response->assertJson(['message' => 'This action is unauthorized.']);
 });
 
 it('impede acesso sem ability de visualizar', function () {
@@ -116,7 +120,7 @@ it('impede acesso sem ability de visualizar', function () {
     $response = $this->getJson('/api/punches/report');
 
     $response->assertForbidden();
-    $response->assertJson(['message' => 'Invalid ability.']);
+    $response->assertJson(['message' => 'This action is unauthorized.']);
 });
 
 it('impede acesso não autenticado', function () {
