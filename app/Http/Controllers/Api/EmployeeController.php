@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ListEmployeesRequest;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Requests\UpdateOwnPasswordRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\EmployeeService;
@@ -19,7 +20,7 @@ class EmployeeController extends Controller
     use HandlesApiExceptions;
 
     public function __construct(protected EmployeeService $employeeService) {}
-    
+
     /**
      * Lista os funcionários cadastrados.
      */
@@ -29,7 +30,7 @@ class EmployeeController extends Controller
             $employees = $this->employeeService->list($request->validated());
             return UserResource::collection($employees)->response();
         });
-    }    
+    }
 
     /**
      * Cadastra um novo funcionário.
@@ -77,6 +78,20 @@ class EmployeeController extends Controller
 
             return response()->json([
                 'message' => 'Employee deleted successfully.',
+            ]);
+        });
+    }
+
+    /**
+     * Atualiza a senha do próprio usuário autenticado.
+     */
+    public function updateOwnPassword(UpdateOwnPasswordRequest $request): JsonResponse
+    {
+        return $this->handleApi(function () use ($request) {
+            $this->employeeService->updateOwnPassword(auth()->user(), $request->validated());
+
+            return response()->json([
+                'message' => 'Password updated successfully.',
             ]);
         });
     }

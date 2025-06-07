@@ -27,6 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->stopIgnoring(HttpException::class);
+        
+        // 404 padrão
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json([
@@ -34,6 +36,16 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 404);
             }
         });
+
+        // 403 padronizado para falha de autorização via Sanctum ability
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'message' => 'This action is unauthorized.',
+                ], 403);
+            }
+        });
+
         $exceptions->shouldRenderJsonWhen(function (Request $request) {
             if ($request->is('api/*')) {
                 return true;

@@ -15,6 +15,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/zipcode/{cep}', [ZipCodeController::class, 'lookup']);
 
+    // Atualização de senha pelo próprio usuário
+    Route::put('/me/password', [EmployeeController::class, 'updateOwnPassword'])
+        ->middleware('ability:' . TokenAbility::UPDATE_PASSWORD->value);
+
     // Grupo de rotas administrativas para gerenciamento de usuários
     Route::prefix('admin')->middleware('ability:' . TokenAbility::MANAGE_EMPLOYEES->value)->group(function () {
         Route::post('/users', [EmployeeController::class, 'store']);

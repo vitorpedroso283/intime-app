@@ -97,4 +97,20 @@ class EmployeeService
 
         return $query->paginate($perPage);
     }
+
+    /**
+     * Atualiza a senha do próprio usuário autenticado.
+     *
+     * Verifica se a senha atual está correta antes de permitir a alteração.
+     */
+    public function updateOwnPassword(User $user, array $data): void
+    {
+        if (!Hash::check($data['current_password'], $user->password)) {
+            throw new \Symfony\Component\HttpKernel\Exception\HttpException(401, 'Current password is incorrect.');
+        }
+
+        $user->update([
+            'password' => Hash::make($data['new_password']),
+        ]);
+    }
 }
