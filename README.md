@@ -29,6 +29,15 @@ A proposta consiste em desenvolver uma aplicação de controle de ponto, permiti
 
 Siga os passos abaixo para configurar e rodar o projeto localmente:
 
+### 🔧 Requisitos do Ambiente
+
+Antes de tudo, certifique-se de ter os seguintes requisitos instalados:
+
+- **PHP >= 8.2** (a aplicação foi testada com PHP 8.4)
+- **Composer** – para gerenciar as dependências PHP
+- **MySQL** (ou outro banco compatível com Laravel)
+- **Postman** – para testar os endpoints via collection já fornecida
+
 ### 1. Clone o repositório
 
 ```bash
