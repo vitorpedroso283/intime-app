@@ -1,11 +1,32 @@
-### 📘 inTime - Teste Técnico (Ticto)
+# 📘 inTime – Teste Técnico (Ticto)
 
-Este repositório faz parte da entrega de um teste técnico para a empresa Ticto.
+Bem-vindo(a)! Este repositório representa a entrega do teste técnico solicitado pela empresa **Ticto**.
 
-> -   Esta entrega foi feita com carinho, atenção aos detalhes e foco em boas práticas de desenvolvimento e documentação.
-> -   A API está completamente documentada via Postman (collection disponível no repositório) e o projeto segue uma estrutura clara e organizada para facilitar a leitura e testes.
-> -   Embora o projeto não inclua frontend, o backend foi pensado para ter peso real de projeto — pronto para evoluir.
-> -   Foi um projeto divertido de desenvolver, que me permitiu aplicar boas práticas com liberdade — e também foi uma ótima desculpa pra tomar uns bons cafezinhos. ☕️
+---
+
+💡 **Sobre o desafio**  
+O objetivo foi desenvolver uma API moderna e robusta para controle de ponto, aplicando boas práticas de arquitetura, segurança e organização de código.
+
+---
+
+✨ **O que você encontrará aqui:**
+
+- 📚 **API 100% documentada** via Postman (collection incluída no repositório);
+- 🧱 **Backend sólido**, com estrutura real de projeto — pronto para evoluir;
+- 🛠️ **Código limpo**, testes automatizados e separação clara de responsabilidades;
+- ☕ **E sim...** alguns litros de café foram consumidos para deixar tudo no capricho.
+
+---
+
+> _"Clean code always looks like it was written by someone who cares."_  
+> — **Robert C. Martin (Uncle Bob)**
+
+---
+
+🧾 **Nota pessoal:**  
+> Esta entrega foi feita com dedicação, atenção aos detalhes e aquele toque artesanal que todo projeto técnico merece.  
+> O README foi escrito com o mesmo cuidado aplicado ao código — com seções organizadas, explicações diretas e linguagem acessível, para que qualquer pessoa desenvolvedora ou avaliadora possa entender com clareza as decisões e estratégias adotadas.  
+> Mesmo sem frontend, a API foi pensada como base sólida para qualquer tipo de expansão futura — com ou sem botãozinho de 'bater ponto'.
 
 ## 🌟 Objetivo do Teste
 
