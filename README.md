@@ -2,10 +2,10 @@
 
 Este repositório faz parte da entrega de um teste técnico para a empresa Ticto.
 
->  - Esta entrega foi feita com carinho, atenção aos detalhes e foco em boas práticas de desenvolvimento e documentação.  
-> - A API está completamente documentada via Postman (collection disponível no repositório) e o projeto segue uma estrutura clara e organizada para facilitar a leitura e testes.  
-> - Embora o projeto não inclua frontend, o backend foi pensado para ter peso real de projeto — pronto para evoluir. 
-> - Foi um projeto divertido de desenvolver, que me permitiu aplicar boas práticas com liberdade — e também foi uma ótima desculpa pra tomar uns bons cafezinhos. ☕️
+> -   Esta entrega foi feita com carinho, atenção aos detalhes e foco em boas práticas de desenvolvimento e documentação.
+> -   A API está completamente documentada via Postman (collection disponível no repositório) e o projeto segue uma estrutura clara e organizada para facilitar a leitura e testes.
+> -   Embora o projeto não inclua frontend, o backend foi pensado para ter peso real de projeto — pronto para evoluir.
+> -   Foi um projeto divertido de desenvolver, que me permitiu aplicar boas práticas com liberdade — e também foi uma ótima desculpa pra tomar uns bons cafezinhos. ☕️
 
 ## 🌟 Objetivo do Teste
 
@@ -33,10 +33,10 @@ Siga os passos abaixo para configurar e rodar o projeto localmente:
 
 Antes de tudo, certifique-se de ter os seguintes requisitos instalados:
 
-- **PHP >= 8.2** (a aplicação foi testada com PHP 8.4)
-- **Composer** – para gerenciar as dependências PHP
-- **MySQL** (ou outro banco compatível com Laravel)
-- **Postman** – para testar os endpoints utilizando a collection disponível no repositório
+-   **PHP >= 8.2** (a aplicação foi testada com PHP 8.4)
+-   **Composer** – para gerenciar as dependências PHP
+-   **MySQL** (ou outro banco compatível com Laravel)
+-   **Postman** – para testar os endpoints utilizando a collection disponível no repositório
 
 ### 1. Clone o repositório
 
@@ -184,55 +184,55 @@ Você pode importá-lo diretamente no Postman para testar e explorar os endpoint
 
 ---
 
-### 🧠 Estratégias de Implementação
+### 🧱 Arquitetura e Estratégias de Implementação
 
--   **Enum** para centralização de permissões (abilities)
--   **Enum** para centralização de role (perfis admin e funcionário)
--   **Service Layer** para separar regras de negócio da camada de controle
--   **Cache** para otimização de requisições externas
--   **Form Requests** para validações padronizadas e reutilizáveis
--   **API Resources** para padronização e formatação das respostas
--   **Custom Rules** para validações como CPF e CEP
--   **Traits utilitárias** como geração de CPF válido para testes
--   **A separação por serviços permite uma organização clara da lógica de negócio e torna o projeto mais testável e manutenível.**
+A arquitetura da aplicação foi pensada de forma pragmática, priorizando boas práticas, clareza e padrões consistentes. A estrutura é baseada em **MVC com Service Layer**, evitando complexidades desnecessárias como DDD ou Arquitetura Hexagonal, que não se justificariam para o escopo deste projeto.
 
-## 🧱 Arquitetura do Projeto
+As principais estratégias e decisões adotadas incluem:
 
-A arquitetura da aplicação foi pensada de forma pragmática, priorizando boas práticas, organização clara e padrões sólidos, sem adotar estruturas complexas como DDD ou Arquitetura Hexagonal, que seriam desnecessárias para o escopo deste projeto.
+-   **Service Layer** para isolar e reutilizar regras de negócio;
+-   **Enum** para centralizar permissões (abilities) e roles (admin e funcionário);
+-   **Form Requests** para validações padronizadas e reaproveitáveis;
+-   **Custom Rules** específicas como CPF e CEP;
+-   **API Resources** para padronização das respostas JSON;
+-   **Cache** para otimizar requisições externas, como as da API ViaCEP;
+-   **Traits utilitárias**, como a geração de CPF válido para testes;
+-   **Middlewares** para controle de acesso com base nas abilities;
+-   **Controllers enxutos**, focados apenas em entrada e saída HTTP.
 
-A escolha por uma abordagem simples e eficiente, baseada no padrão MVC com Service Layer, garante uma separação adequada de responsabilidades, tornando o projeto fácil de manter e evoluir.
-
-A estrutura contempla:
-
--   **Controllers focados em lidar com a entrada e resposta HTTP;**
-
--   **Services contendo a lógica de negócio de forma isolada e reutilizável;**
-
--   **Enums organizando as permissões disponíveis para os tokens Sanctum, roles e filtros;**
-
--   **Resources usados para formatar as respostas de API (padrão JSON);**
-
--   **Middlewares configurados para validar permissões via abilities do Sanctum;**
-
--   **Form Requests responsáveis por encapsular regras de validação reutilizáveis;**
-
--   **Rules customizadas utilizadas para validações específicas como CPF e CEP.**
+> 💡 A separação por serviços contribui diretamente para a manutenibilidade, testabilidade e legibilidade do projeto como um todo.
 
 ## 🧪 Validações Customizadas
 
 Para garantir a consistência e controle sobre os dados, foram criadas regras próprias de validação (Rules):
 
-## 📌 CPF
+### 📌 CPF
 
-A regra `App\Rules\Cpf` valida o CPF com base no algoritmo oficial, dispensando bibliotecas externas não mantidas. Garante controle total e validação robusta dos dígitos verificadores.
+A regra `App\Rules\Cpf` valida o CPF com base no algoritmo oficial, sem depender de bibliotecas externas não mantidas.
+Como não existe uma lib oficial do Laravel para validação de CPF, optou-se por uma implementação própria, garantindo controle total e validação robusta dos dígitos verificadores.
 
-## 📌 CEP (Zip Code)
+### 📌 CEP (Zip Code)
 
 A regra `App\Rules\ValidZipCode` valida se um CEP existe via API ViaCEP. A resposta é cacheada por 1 dia para evitar múltiplas requisições.
 
--   O `ZipCodeService` centraliza essa lógica;
--   A validação ocorre apenas se o campo for alterado;
--   O cache é utilizado tanto na validação quanto na aplicação.
+A API de consulta de CEP foi construída pensando na performance e reutilização:
+
+-   As requisições à ViaCEP são armazenadas em cache com TTL configurável;
+-   Um `ZipCodeService` centraliza a chamada e o cache, evitando acoplamento direto com a API externa;
+-   Os dados são retornados via `Resource`, garantindo consistência de estrutura na API;
+-   O recurso será reutilizado nos formulários de cadastro de funcionários, onde o CEP será validado automaticamente durante o `FormRequest` (via um custom validator).
+
+#### ➕ Validação de CEP na criação
+
+Ao cadastrar um novo funcionário, o `FormRequest` verifica se o CEP informado é válido e retorna seus dados formatados. Caso não seja encontrado, o request falha com erro 404.
+
+#### 🔁 Considerações sobre atualização
+
+A validação só será reexecutada caso o campo `cep` seja alterado. Isso evita falhas desnecessárias caso o CEP anterior tenha expirado no cache, mas ainda seja válido.
+
+#### 🛡️ Fallback automático
+
+Se o CEP não estiver em cache, a API externa é consultada e o resultado é salvo automaticamente, garantindo consistência e performance.
 
 ## 🧰 Utilitários e Traits
 
@@ -258,23 +258,6 @@ Enum central que define as permissões utilizadas nos tokens Sanctum, como:
 -   `employee:update-password`
 
 Esse enum garante consistência e documenta todas as abilities válidas do sistema.
-
-## 🔍 Estratégia de Consulta de CEP
-
-A API de consulta de CEP foi construída pensando na performance e reutilização:
-
--   As requisições à ViaCEP são armazenadas em cache com TTL configurável;
--   Um `ZipCodeService` centraliza a chamada e o cache, evitando acoplamento direto com a API externa;
--   Os dados são retornados via `Resource`, garantindo consistência de estrutura na API;
--   O recurso será reutilizado nos formulários de cadastro de funcionários, onde o CEP será validado automaticamente durante o `FormRequest` (via um custom validator).
-
-### ➕ Validação de CEP na criação
-
-Ao cadastrar um novo funcionário, o `FormRequest` verifica se o CEP informado é válido e retorna seus dados formatados. Caso não seja encontrado, o request falha com erro 404.
-
-### 🛡️ A implementação também contempla fallback automático:
-
-Se o CEP não estiver em cache, a API externa é consultada e o resultado é salvo, garantindo consistência e performance.
 
 ---
 
