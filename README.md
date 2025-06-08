@@ -124,7 +124,7 @@ composer install
 cp .env.example .env
 ```
 
-Edite o arquivo `.env` com as credenciais corretas do seu banco de dados.
+Edite o arquivo `.env` com as credenciais corretas do seu banco de dados (caso não tenha usado o docker-composer como recomendado).
 
 ### 4. Gere a chave da aplicação
 
@@ -134,7 +134,7 @@ php artisan key:generate
 
 ### 5. Crie o banco de dados
 
-Crie um banco (por exemplo, `intime-app`) no seu MySQL/PostgreSQL:
+Crie um banco (por exemplo, `intime-app`) no seu MySQL (caso não tenha usado o docker-composer como recomendado):
 
 ```sql
 CREATE DATABASE intime-app;
