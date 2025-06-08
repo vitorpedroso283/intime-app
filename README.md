@@ -190,7 +190,6 @@ A escolha por uma abordagem simples e eficiente, baseada no padrão MVC com Serv
 
 A estrutura contempla:
 
-
 -   **Controllers focados em lidar com a entrada e resposta HTTP;**
 
 -   **Services contendo a lógica de negócio de forma isolada e reutilizável;**
@@ -204,7 +203,6 @@ A estrutura contempla:
 -   **Form Requests responsáveis por encapsular regras de validação reutilizáveis;**
 
 -   **Rules customizadas utilizadas para validações específicas como CPF e CEP.**
-
 
 ## 🧪 Validações Customizadas
 
@@ -409,11 +407,12 @@ Isso garante flexibilidade e cobre ambos os cenários com segurança.
 
 ---
 
-## 📒 Sobre este README
+## 📒 Sobre esta entrega
 
-Este é um **README provisório** com anotações e insights sobre o desenvolvimento. Uma versão final mais objetiva e organizada será disponibilizada ao término da implementação, contendo:
+Essa entrega foi feita com muito carinho, foco em boas práticas e movida a algumas boas xícaras de café — **talvez mais do que o recomendado 😅**.
 
--   Instruções de execução local;
--   Estrutura completa de endpoints;
--   Explicações de decisões técnicas;
--   Cobertura de testes (se aplicável).
+Foi um daqueles projetos que a gente realmente se diverte desenvolvendo: simples, bem estruturado, com espaço pra pensar em melhorias e aplicar decisões técnicas com propósito. Tudo está organizado de forma objetiva, mas com profundidade suficiente pra mostrar o cuidado por trás de cada escolha.
+
+Apesar de não ter incluído um frontend, a decisão foi consciente: o foco aqui era demonstrar uma API robusta, bem estruturada e alinhada com boas práticas. Criar um frontend corrido apenas para cumprir tabela não agregaria valor real à proposta da vaga — especialmente sendo para uma posição back-end. Mas vale reforçar que tenho familiaridade com frontend e, se necessário, entregaria essa camada sem problemas.
+
+Se surgir qualquer dúvida, estou por aqui — e prometo que o café não afetou a qualidade do código. Só ajudou mesmo! ☕🚀
