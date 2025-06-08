@@ -6,7 +6,7 @@ enum PunchReportSortEnum: string
 {
     case PUNCHED_AT     = 'punched_at';
     case EMPLOYEE_NAME  = 'employee_name';
-    case EMPLOYEE_ROLE  = 'employee_role';
+    case EMPLOYEE_POSITION  = 'employee_position';
     case EMPLOYEE_AGE   = 'employee_age';
     case MANAGER_NAME   = 'manager_name';
 
