@@ -343,6 +343,10 @@ Armazena tanto administradores quanto funcionários. Campos adicionais foram inc
 
 🔄 A opção de manter os campos adicionais na tabela `users`, sem criar uma tabela `employees` separada, foi tomada para manter a estrutura simples, já que todo `user` é um funcionário (ou ao menos precisa bater ponto).
 
+🔍 Foram adicionados índices nas colunas `position`, `role` e `name` para otimizar filtros e ordenações nos relatórios.
+
+---
+
 ### ⏱️ `punches`
 
 Registra os batimentos de ponto com os campos:
@@ -351,6 +355,11 @@ Registra os batimentos de ponto com os campos:
 -   `type` (`in` ou `out`)
 -   `punched_at` → momento real do batimento (pode ser diferente de `created_at`)
 -   `created_by` → identifica se foi um lançamento manual por um admin
+-   `deleted_at` → permite soft delete com `SoftDeletes`
+
+🔗 A tabela suporta um relacionamento "um para muitos" entre administradores e batidas de outros usuários. Ou seja, um admin pode registrar batidas para vários funcionários (`created_by` aponta para o `id` de outro `user`), enquanto um funcionário sempre tem seu próprio `user_id` vinculado ao batimento.
+
+🔍 Também foram adicionados índices em `created_by`, `punched_at` e `type` para melhorar o desempenho das consultas de relatório.
 
 📌 **Por que `punched_at` se já temos `created_at`?**
 
