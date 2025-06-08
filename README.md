@@ -67,8 +67,8 @@ php artisan migrate --seed
 
 Esse comando criará todas as tabelas do banco e populará os dados iniciais, incluindo um usuário administrador padrão para acesso ao sistema:
 
-- **Email: admin@intime.test**
-- **Senha: t0atr@sado**
+-   **Email: admin@intime.test**
+-   **Senha: t0atr@sado**
 
 Esse usuário pode ser utilizado para realizar os testes iniciais, acessar endpoints protegidos como administrador e cadastrar novos funcionários.
 
@@ -94,6 +94,80 @@ Execute os testes com Pest:
 
 ## 🔌 Endpoints da API
 
+A aplicação expõe uma API RESTful protegida por autenticação via Laravel Sanctum. O token de acesso é obtido na rota `/login` e reutilizado automaticamente nos demais endpoints, respeitando as permissões definidas por abilities.
+
+### 🧩 Grupos de Endpoints
+
+#### 🔐 Autenticação
+
+-   `POST /login`: Gera o token de acesso para o usuário.
+-   `POST /logout`: Revoga o token atual.
+-   `PATCH /me/password`: Atualiza a senha do próprio usuário logado (ability: `UPDATE_PASSWORD`).
+
+#### 👤 Administração de Usuários (`/admin/users`)
+
+-   `GET /users`: Lista todos os funcionários.
+-   `POST /users`: Cria novo funcionário.
+-   `GET /users/{id}`: Visualiza dados de um funcionário.
+-   `PUT /users/{id}`: Atualiza dados de um funcionário.
+-   `DELETE /users/{id}`: Remove um funcionário.
+-   `PATCH /users/{id}/password`: Reseta a senha de um funcionário (apenas admin).
+
+🔐 Todas as rotas acima exigem ability: `MANAGE_EMPLOYEES`.
+
+#### ⏱️ Registro de Ponto (`/punches`)
+
+-   `POST /clock-in`: Bate o ponto (entrada ou saída automática). Requer ability: `CLOCK_IN`.
+-   `POST /manual`: Registra ponto manual (ex: esquecimento) — via admin.
+-   `PUT /{id}`: Atualiza um registro de ponto (admin).
+-   `DELETE /{id}`: Remove um registro de ponto (admin).
+
+🔐 As três últimas rotas requerem ability: `MANAGE_EMPLOYEES`.
+
+-   `GET /report`: Retorna relatório de registros de ponto com filtros avançados. Requer ability: `VIEW_ALL_CLOCKS`.
+
+##### Filtros disponíveis para `/report`:
+
+| Parâmetro  | Tipo   | Descrição                                                                                           |
+| ---------- | ------ | --------------------------------------------------------------------------------------------------- |
+| from       | date   | Data inicial (YYYY-MM-DD)                                                                           |
+| to         | date   | Data final (YYYY-MM-DD)                                                                             |
+| user_id    | int    | ID do funcionário                                                                                   |
+| created_by | int    | ID do admin que criou o registro                                                                    |
+| position   | string | Cargo do funcionário                                                                                |
+| sort_by    | string | Campo de ordenação (`punched_at`, `employee_name`, `employee_role`, `employee_age`, `manager_name`) |
+| sort_dir   | string | Direção da ordenação: `asc` ou `desc`                                                               |
+| per_page   | int    | Quantidade por página (1–100)                                                                       |
+| page       | int    | Página da listagem                                                                                  |
+
+ℹ️ Para uso dos filtros, o token deve conter a ability: `FILTER_CLOCKS`.
+
+#### 🧭 Consulta de CEP
+
+-   `GET /zipcode/{cep}`: Retorna endereço completo utilizando a API do ViaCEP.
+
+---
+
+### 📥 Importação
+
+O arquivo da collection já está disponível no repositório com o nome:
+
+```
+intime-app.postman_collection.json
+```
+
+Você pode importá-lo diretamente no Postman para testar e explorar os endpoints.
+
+### 🧪 Informações úteis
+
+-   **Autenticação:** Laravel Sanctum com token do tipo Bearer.
+-   **Token automático:** o token (`access_token`) é salvo automaticamente no ambiente ao fazer login.
+-   **Variáveis de ambiente esperadas:**
+    -   `BASE_URL`: URL base da API (ex: `http://localhost:8000/api`)
+    -   `access_token`: preenchido automaticamente após o login
+
+> Acesse o Postman, importe a collection e inicie os testes. O token será gerenciado automaticamente após o login.
+
 ---
 
 ### 🧠 Estratégias de Implementação
@@ -110,7 +184,12 @@ Execute os testes com Pest:
 
 ## 🧱 Arquitetura do Projeto
 
-A arquitetura da aplicação é baseada no padrão MVC com Service Layer, contemplando os seguintes pontos:
+A arquitetura da aplicação foi pensada de forma pragmática, priorizando boas práticas, organização clara e padrões sólidos, sem adotar estruturas complexas como DDD ou Arquitetura Hexagonal, que seriam desnecessárias para o escopo deste projeto.
+
+A escolha por uma abordagem simples e eficiente, baseada no padrão MVC com Service Layer, garante uma separação adequada de responsabilidades, tornando o projeto fácil de manter e evoluir.
+
+A estrutura contempla:
+
 
 -   **Controllers focados em lidar com a entrada e resposta HTTP;**
 
@@ -126,9 +205,6 @@ A arquitetura da aplicação é baseada no padrão MVC com Service Layer, contem
 
 -   **Rules customizadas utilizadas para validações específicas como CPF e CEP.**
 
-## Por que não usar DDD, Hexagonal, etc?
-
-Embora arquiteturas mais robustas como DDD ou Arquitetura Hexagonal sejam valiosas em projetos grandes e complexos, sua aplicação aqui resultaria em over engineering desnecessário. A escolha por uma abordagem mais simples atende completamente ao escopo e requisitos deste teste.
 
 ## 🧪 Validações Customizadas
 
@@ -301,15 +377,7 @@ Essa abordagem garante maior confiança na evolução do sistema e ajuda a mante
 
 ## 🧪 Commits e Versionamento
 
--   Os commits seguem convenções claras (`feat`, `test`, `fix`, `docs`, etc);
--   A frequência de entregas parciais está refletida nos commits pequenos e incrementais;
--   Apesar de não termos utilizado múltiplas **branches** neste projeto, essa foi uma decisão consciente para manter o fluxo simples. Caso necessário, adotaríamos convenções como:
-
-1.  `feature/nome-da-feature`
-2.  `fix/ajuste-especifico`
-3.  `docs/atualiza-readme`
-
-A ausência de branches não comprometeu a legibilidade nem o controle do histórico, que segue boas práticas de versionamento.
+Os commits seguem convenções claras (feat, test, fix, docs, etc), garantindo rastreabilidade. Apesar do uso de uma única branch, o histórico foi mantido limpo e incremental, permitindo fácil revisão do progresso e decisões tomadas.
 
 ## 🔄 Considerações Técnicas Adicionais
 
@@ -320,22 +388,6 @@ O escopo do desafio foi bem definido e direto, com foco em controle de ponto e g
 A criação de jobs para processos como envio de e-mail de boas-vindas, embora possível, não se justificava, já que o Laravel provê isso de forma trivial com notificações ou Mail::to()->send() inline;
 
 O uso de events e listeners, bem como comandos Artisan customizados, foi evitado por não haver fluxo reativo, tarefas agendadas ou rotinas de longa duração que demandassem esse tipo de arquitetura.
-
-## 💡 Experiência com Jobs e Assincronismo
-
-Apesar de não aplicados neste projeto, tenho amplo domínio na criação e orquestração de jobs no Laravel, utilizando recursos como:
-
-dispatch() para execução assíncrona simples;
-
-Bus::batch([...]) para processamento em lote com controle de progresso e falhas;
-
-Bus::chain([...]) para execução sequencial de tarefas interdependentes;
-
-Uso de filas com drivers como Redis e integração com Laravel Horizon para monitoramento em tempo real;
-
-Manipulação de filas com prioridade, timeouts e backoff customizado;
-
-Essas abordagens me permitem construir fluxos assíncronos altamente escaláveis e eficientes, especialmente úteis em contextos de integrações com APIs, processamento de relatórios, importações em massa, notificações e rotinas recorrentes.
 
 ---
 
