@@ -276,7 +276,7 @@ A consulta inclui:
 -   Idade do Funcionário (calculada na query)
 -   Data e Hora Completa do Registro (com segundos)
 
-## A consulta está disponível no método `report()` do `PunchController`, garantindo performance e clareza conforme os critérios de avaliação.
+### A consulta está disponível no método `report()` do `PunchController`, garantindo performance e clareza conforme os critérios de avaliação.
 
 ## 📒 Estratégia de Desenvolvimento
 
@@ -298,9 +298,9 @@ Essa abordagem garante maior confiança na evolução do sistema e ajuda a mante
 -   A frequência de entregas parciais está refletida nos commits pequenos e incrementais;
 -   Apesar de não termos utilizado múltiplas **branches** neste projeto, essa foi uma decisão consciente para manter o fluxo simples. Caso necessário, adotaríamos convenções como:
 
--   `feature/nome-da-feature`
--   `fix/ajuste-especifico`
--   `docs/atualiza-readme`
+1.  `feature/nome-da-feature`
+2.  `fix/ajuste-especifico`
+3.  `docs/atualiza-readme`
 
 A ausência de branches não comprometeu a legibilidade nem o controle do histórico, que segue boas práticas de versionamento.
 
