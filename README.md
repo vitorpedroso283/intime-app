@@ -4,7 +4,7 @@ Este repositório faz parte da entrega de um teste técnico para a empresa Ticto
 
 > Esta entrega foi feita com carinho, atenção aos detalhes e foco em boas práticas de desenvolvimento e documentação.  
 > A API está completamente documentada via Postman (collection disponível no repositório) e o projeto segue uma estrutura clara e organizada para facilitar a leitura e testes.  
-> Embora não tenha frontend, o backend foi pensado para ter peso real de projeto — pronto para evoluir.  
+> Embora o projeto não inclua frontend, o backend foi pensado para ter peso real de projeto — pronto para evoluir. 
 > Foi um projeto divertido de desenvolver, que me permitiu aplicar boas práticas com liberdade — e também foi uma ótima desculpa pra tomar uns bons cafezinhos. ☕️
 
 ## 🌟 Objetivo do Teste
@@ -36,7 +36,7 @@ Antes de tudo, certifique-se de ter os seguintes requisitos instalados:
 - **PHP >= 8.2** (a aplicação foi testada com PHP 8.4)
 - **Composer** – para gerenciar as dependências PHP
 - **MySQL** (ou outro banco compatível com Laravel)
-- **Postman** – para testar os endpoints via collection já fornecida
+- **Postman** – para testar os endpoints utilizando a collection disponível no repositório
 
 ### 1. Clone o repositório
 
