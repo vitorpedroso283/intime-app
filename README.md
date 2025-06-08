@@ -65,6 +65,13 @@ CREATE DATABASE intime-app;
 php artisan migrate --seed
 ```
 
+Esse comando criará todas as tabelas do banco e populará os dados iniciais, incluindo um usuário administrador padrão para acesso ao sistema:
+
+- **Email: admin@intime.test**
+- **Senha: t0atr@sado**
+
+Esse usuário pode ser utilizado para realizar os testes iniciais, acessar endpoints protegidos como administrador e cadastrar novos funcionários.
+
 ### 7. Rode a aplicação localmente
 
 ```bash
