@@ -4,17 +4,18 @@ Bem-vindo(a)! Este repositório representa a entrega do teste técnico solicitad
 
 ---
 
-### 💡 **Sobre o desafio**  
+### 💡 **Sobre o desafio**
+
 O objetivo foi desenvolver uma API moderna e robusta para controle de ponto, aplicando boas práticas de arquitetura, segurança e organização de código.
 
 ---
 
 ### ✨ **O que você encontrará aqui:**
 
-- 📚 **API 100% documentada** via Postman (collection incluída no repositório);
-- 🧱 **Backend sólido**, com estrutura real de projeto — pronto para evoluir;
-- 🛠️ **Código limpo**, testes automatizados e separação clara de responsabilidades;
-- ☕ **E sim...** alguns litros de café foram consumidos para deixar tudo no capricho.
+-   📚 **API 100% documentada** via Postman (collection incluída no repositório);
+-   🧱 **Backend sólido**, com estrutura real de projeto — pronto para evoluir;
+-   🛠️ **Código limpo**, testes automatizados e separação clara de responsabilidades;
+-   ☕ **E sim...** alguns litros de café foram consumidos para deixar tudo no capricho.
 
 ---
 
@@ -23,7 +24,8 @@ O objetivo foi desenvolver uma API moderna e robusta para controle de ponto, apl
 
 ---
 
-### 🧾 **Nota pessoal:**  
+### 🧾 **Nota pessoal:**
+
 > Esta entrega foi feita com dedicação, atenção aos detalhes e aquele toque artesanal que todo projeto técnico merece.  
 > O README foi escrito com o mesmo cuidado aplicado ao código — com seções organizadas, explicações diretas e linguagem acessível, para que qualquer pessoa desenvolvedora ou avaliadora possa entender com clareza as decisões e estratégias adotadas.  
 > Mesmo sem frontend, a API foi pensada como base sólida para qualquer tipo de expansão futura — com ou sem botãozinho de 'bater ponto'.
@@ -45,6 +47,50 @@ A proposta consiste em desenvolver uma aplicação de controle de ponto, permiti
 -   **Laravel Sanctum** – autenticação com tokens pessoais
 -   **Eloquent ORM** – comunicação com o banco de dados
 -   **PestPHP** – escrita e execução de testes automatizados
+
+## 🐬 Banco de Dados com Docker (opcional)
+
+Como solução prática e rápida para rodar a aplicação localmente, incluí uma configuração simples de banco de dados MySQL usando **Docker Compose**. Isso evita a necessidade de instalar o MySQL manualmente no seu ambiente.
+
+### 🔄 Subindo o MySQL com Docker
+
+Se você já tiver Docker instalado, basta rodar:
+
+```bash
+docker-compose up -d
+```
+
+Isso irá:
+
+-   Subir um container MySQL 8.0
+-   Expor a porta **3306** no seu host
+-   Criar automaticamente o banco de dados `intime-app`
+-   Usar o usuário `root` **sem senha**
+
+### 🛠️ Configuração do container
+
+```yaml
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: dev_mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ""
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_DATABASE: intime-app
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql_data:/var/lib/mysql
+        command: --default-authentication-plugin=mysql_native_password
+
+volumes:
+    mysql_data:
+```
+
+> 💡 **Importante:** O Laravel já está configurado no `.env` para conectar nesse banco padrão.  
+> Se preferir usar seu próprio MySQL local, ajuste as variáveis `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME` e `DB_PASSWORD` conforme necessário.
 
 ## 🚀 Como Rodar a Aplicação
 
