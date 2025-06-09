@@ -524,7 +524,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"joao.silvaaa@empresa.com\",\n    \"password\": \"senhaSegura123\"\n}",
+					"raw": "{\n    \"email\": \"admin@intime.test\",\n    \"password\": \"t0atr@sado\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
