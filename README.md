@@ -13,7 +13,7 @@ O objetivo foi desenvolver uma API moderna e robusta para controle de ponto, apl
 ### ✨ **O que você encontrará aqui:**
 
 -   📚 **API 100% documentada** via Postman (collection incluída no repositório);
--   🧱 **Backend sólido**, com estrutura real de projeto — pronto para evoluir;
+-   🧱 **Backend sólido**, com estrutura real de projeto: pronto para evoluir;
 -   🛠️ **Código limpo**, testes automatizados e separação clara de responsabilidades;
 -   ☕ **E sim...** alguns litros de café foram consumidos para deixar tudo no capricho.
 
@@ -27,7 +27,7 @@ O objetivo foi desenvolver uma API moderna e robusta para controle de ponto, apl
 ### 🧾 **Nota pessoal:**
 
 > Esta entrega foi feita com dedicação, atenção aos detalhes e aquele toque artesanal que todo projeto técnico merece.  
-> O README foi escrito com o mesmo cuidado aplicado ao código — com seções organizadas, explicações diretas e linguagem acessível, para que qualquer pessoa desenvolvedora ou avaliadora possa entender com clareza as decisões e estratégias adotadas.  
+> O README foi escrito com o mesmo cuidado aplicado ao código: com seções organizadas, explicações diretas e linguagem acessível, para que qualquer pessoa desenvolvedora ou avaliadora possa entender com clareza as decisões e estratégias adotadas.  
 > Mesmo sem frontend, a API foi pensada como base sólida para qualquer tipo de expansão futura — com ou sem botãozinho de 'bater ponto'.
 
 ## 🌟 Objetivo do Teste
