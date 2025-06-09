@@ -78,7 +78,8 @@ class PunchService
      * - Nome do gestor
      * - Data e hora completa do punch (com segundos)
      *
-     * A listagem usa SQL puro via Query Builder (sem Eloquent), conforme exigido.
+     * A listagem usa SQL puro via Query Builder (sem Eloquent), conforme exigido.   
+     * A verificação do driver de banco de dados se dá por conta dos testes automatizados, que em sua configuração padrão utiliza SQLite e o mesmo não suporta TIMESTAMPDIFF.
      * 
      * @param array $filters Filtros aplicáveis: from, to, user_id, created_by, position, sort_by, sort_dir, per_page
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
