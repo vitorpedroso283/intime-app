@@ -231,23 +231,32 @@ A aplicação expõe uma API RESTful protegida por autenticação via Laravel Sa
 
 ### 📥 Importação
 
-O arquivo da collection já está disponível no repositório com o nome:
+Os arquivos necessários já estão disponíveis no repositório:
+
+-   Collection:
 
 ```
 intime-app.postman_collection.json
 ```
 
-Você pode importá-lo diretamente no Postman para testar e explorar os endpoints.
+-   Ambiente:
+
+```
+intime.postman_environment.json
+
+```
+
+Você pode importá-los diretamente no Postman para testar e explorar os endpoints com as variáveis já configuradas.
 
 ### 🧪 Informações úteis
 
 -   **Autenticação:** Laravel Sanctum com token do tipo Bearer.
 -   **Token automático:** o token (`access_token`) é salvo automaticamente no ambiente ao fazer login.
 -   **Variáveis de ambiente esperadas:**
-    -   `BASE_URL`: URL base da API (ex: `http://localhost:8000/api`)
-    -   `access_token`: preenchido automaticamente após o login
+-   `BASE_URL`: URL base da API (ex: `http://localhost:8000/api`)
+-   `access_token`: preenchido automaticamente após o login
 
-> Acesse o Postman, importe a collection e inicie os testes. O token será gerenciado automaticamente após o login.
+> Acesse o Postman, importe a collection e o ambiente e inicie os testes. O token será gerenciado automaticamente após o login.
 
 ---
 
