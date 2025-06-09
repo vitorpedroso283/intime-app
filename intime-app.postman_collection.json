@@ -5,7 +5,7 @@
 		"description": "# 🕒 inTime API Collection\n\nEsta coleção contém todos os endpoints da API da aplicação **inTime**, desenvolvida como parte de um teste técnico.\n\n---\n\n## ✅ Autenticação\n\nA autenticação utiliza **Laravel Sanctum** com tokens do tipo **Bearer**.  \nO token de acesso (`access_token`) é automaticamente extraído da resposta da rota de login e salvo no ambiente do Postman por meio de script.\n\n---\n\n## ⚙️ Variáveis de Ambiente\n\n- `BASE_URL`: URL base da API (ex: `http://localhost:8000/api`)\n    \n- `access_token`: Token gerado automaticamente na autenticação e reutilizado nas demais requisições\n    \n\n---\n\n## 📌 Grupos de Endpoints\n\n- `login` – Autenticação e geração de token\n    \n- `logout` – Revogação de token\n    \n- `me` – Atualização de senha do próprio usuário\n    \n- `admin/users` – Cadastro, listagem, atualização e exclusão de usuários (apenas para administradores)\n    \n- `punches` – Registro de pontos (entrada/saída) e relatório\n    \n- `zipcode` – Consulta de endereço pelo CEP\n    \n\n---\n\n## 🧪 Testes Automatizados\n\nA rota de **login** já possui um script que salva o `access_token` automaticamente no ambiente, facilitando a autenticação nas demais chamadas.\n\n---\n\n## 📊 Parâmetros do relatório de ponto (`/punches/report`)\n\nEste endpoint aceita os seguintes **query params opcionais**:\n\n| Parâmetro | Tipo | Descrição |\n| --- | --- | --- |\n| `from` | date | Data inicial do filtro (`YYYY-MM-DD`) |\n| `to` | date | Data final do filtro (`YYYY-MM-DD`) |\n| `user_id` | int | ID do funcionário para filtrar |\n| `created_by` | int | ID do administrador que criou o registro |\n| `position` | string | Cargo do funcionário |\n| `sort_by` | string | Campo de ordenação: `user_name`, `created_at`, etc. |\n| `sort_dir` | string | Direção da ordenação: `asc` ou `desc` |\n| `per_page` | int | Quantidade de itens por página (1–100) |\n| `page` | int | Número da página a ser retornada |\n\n> ℹ️ Obs.: A filtragem exige a **permissão FILTER_CLOCKS** no token. \n  \n\n---\n\n## 👤 Usuário Padrão para Testes\n\nAo executar os comandos de instalação, será criado um usuário administrador padrão para facilitar os testes iniciais:\n\n- **Email:** `admin@intime.test`\n    \n- **Senha:** `t0atr@sado`\n    \n\nEsse usuário pode ser utilizado para autenticação inicial, acessar endpoints protegidos e cadastrar novos funcionários.\n\n---\n\n## 🚀 Como Usar\n\n1. Importe a collection no Postman\n    \n2. Configure o ambiente com a variável `BASE_URL`\n    \n3. Execute a rota `/login` com o usuário padrão para obter o `access_token`\n    \n4. O token será salvo automaticamente e usado nas próximas requisições",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25575786",
-		"_collection_link": "https://fidelizi-3482.postman.co/workspace/cdccc758-5137-4d45-8120-5612b88ac715/collection/25575786-6976743b-87e8-4690-96dc-4f8a3b43fae9?action=share&source=collection_link&creator=25575786"
+		"_collection_link": "https://fidelizi-3482.postman.co/workspace/New-Team-Workspace~cdccc758-5137-4d45-8120-5612b88ac715/collection/25575786-6976743b-87e8-4690-96dc-4f8a3b43fae9?action=share&source=collection_link&creator=25575786"
 	},
 	"item": [
 		{
@@ -18,7 +18,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": \"João da Silva\",\n  \"email\": \"joao.silva@empresa.com\",\n  \"cpf\": \"44054346030\",\n  \"password\": \"senhaSegura123\",\n  \"position\": \"Analista de Sistemas\",\n  \"birth_date\": \"1990-05-10\",\n  \"zipcode\": \"37644400\",\n  \"street\": \"Praça da Sé\",\n  \"neighborhood\": \"Sé\",\n  \"city\": \"São Paulo\",\n  \"state\": \"SP\",\n  \"number\": \"100\",\n  \"complement\": \"Bloco A\",\n  \"role\": \"employee\"\n}\n",
+							"raw": "{\n  \"name\": \"João da Silva\",\n  \"email\": \"joao.silveaea@empresa.com\",\n  \"cpf\": \"07009715645\",\n  \"password\": \"senhaSegura123\",\n  \"position\": \"Analista de Sistemas\",\n  \"birth_date\": \"1990-05-10\",\n  \"zipcode\": \"37644400\",\n  \"street\": \"Praça da Sé\",\n  \"neighborhood\": \"Sé\",\n  \"city\": \"São Paulo\",\n  \"state\": \"SP\",\n  \"number\": \"100\",\n  \"complement\": \"Bloco A\",\n  \"role\": \"employee\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -40,23 +40,11 @@
 				},
 				{
 					"name": "📋 Listar usuários",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"João da Silva\",\n  \"email\": \"joao.silvaaa@empresa.com\",\n  \"cpf\": \"10717222802\",\n  \"password\": \"senhaSegura123\",\n  \"position\": \"Analista de Sistemas\",\n  \"birth_date\": \"1990-05-10\",\n  \"zipcode\": \"3764000\",\n  \"street\": \"Praça da Sé\",\n  \"neighborhood\": \"Sé\",\n  \"city\": \"São Paulo\",\n  \"state\": \"SP\",\n  \"number\": \"100\",\n  \"complement\": \"Bloco A\",\n  \"role\": \"employee\"\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{BASE_URL}}/admin/users/",
+							"raw": "{{BASE_URL}}/admin/users/?per_page=100&page=1&name=joao&email=joao.silva@empresa.com&position=Analista&cpf=39053344705&role=employee&birth_date_from=1990-05-01&birth_date_to=1990-05-10&created_by=1",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -64,6 +52,58 @@
 								"admin",
 								"users",
 								""
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "100",
+									"description": "Quantidade da registros por página"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Página"
+								},
+								{
+									"key": "name",
+									"value": "joao",
+									"description": "Nome"
+								},
+								{
+									"key": "email",
+									"value": "joao.silva@empresa.com",
+									"description": "Email"
+								},
+								{
+									"key": "position",
+									"value": "Analista",
+									"description": "Cargo"
+								},
+								{
+									"key": "cpf",
+									"value": "39053344705",
+									"description": "CPF"
+								},
+								{
+									"key": "role",
+									"value": "employee",
+									"description": "Nível Usuário (admin e employee)"
+								},
+								{
+									"key": "birth_date_from",
+									"value": "1990-05-01",
+									"description": "Data de nascimento inicial"
+								},
+								{
+									"key": "birth_date_to",
+									"value": "1990-05-10",
+									"description": "Data de nascimento Final"
+								},
+								{
+									"key": "created_by",
+									"value": "1",
+									"description": "ID Admin"
+								}
 							]
 						}
 					},
