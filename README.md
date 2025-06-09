@@ -253,8 +253,8 @@ Você pode importá-los diretamente no Postman para testar e explorar os endpoin
 -   **Autenticação:** Laravel Sanctum com token do tipo Bearer.
 -   **Token automático:** o token (`access_token`) é salvo automaticamente no ambiente ao fazer login.
 -   **Variáveis de ambiente esperadas:**
--   `BASE_URL`: URL base da API (ex: `http://localhost:8000/api`)
--   `access_token`: preenchido automaticamente após o login
+    -   `BASE_URL`: URL base da API (ex: `http://localhost:8000/api`)
+    -   `access_token`: preenchido automaticamente após o login
 
 > Acesse o Postman, importe a collection e o ambiente e inicie os testes. O token será gerenciado automaticamente após o login.
 
