@@ -1,6 +1,6 @@
 ## 📘 inTime – Teste Técnico (Ticto)
 
-Bem-vindo(a)! Este repositório representa a entrega do teste técnico solicitado pela empresa **Ticto**.
+Bem-vindo(a)! Este repositório representa a entrega do teste técnico.
 
 ---
 
@@ -468,24 +468,6 @@ O escopo do desafio foi bem definido e direto, com foco em controle de ponto e g
 A criação de jobs para processos como envio de e-mail de boas-vindas, embora possível, não se justificava, já que o Laravel provê isso de forma trivial com notificações ou Mail::to()->send() inline;
 
 O uso de events e listeners, bem como comandos Artisan customizados, foi evitado por não haver fluxo reativo, tarefas agendadas ou rotinas de longa duração que demandassem esse tipo de arquitetura.
-
----
-
-## ❓Dúvidas de Interpretação
-
-Durante a análise do teste, surgiram algumas dúvidas quanto ao escopo funcional. Seguem abaixo os pontos em que foram feitas interpretações técnicas para garantir a entrega da funcionalidade de forma coerente:
-
-### Atualização de senha
-
-O enunciado não deixava claro se a funcionalidade de troca de senha deveria ser feita pelo usuário autenticado (por exemplo, no painel pessoal) ou se deveria existir uma funcionalidade de reset de senha feito por um administrador.
-
-Considerando o contexto de controle de ponto, onde normalmente o gestor é quem define ou reseta a senha dos funcionários, optamos por:
-
--   Criar uma rota para o usuário autenticado trocar sua própria senha (caso o sistema precise ser mais autônomo ou tenha um painel de autoatendimento);
-
--   Adicionar uma rota exclusiva para administradores resetarem a senha de qualquer outro usuário (funcionário ou outro admin), conforme seria esperado em um sistema corporativo tradicional.
-
-Isso garante flexibilidade e cobre ambos os cenários com segurança.
 
 ---
 
