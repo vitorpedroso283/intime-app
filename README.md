@@ -1,4 +1,4 @@
-## 📘 inTime – Teste Técnico (Ticto)
+## 📘 inTime – Teste Técnico
 
 Bem-vindo(a)! Este repositório representa a entrega do teste técnico.
 
